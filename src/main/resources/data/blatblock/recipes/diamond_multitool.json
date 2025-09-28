@@ -1,0 +1,29 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "pattern": [
+        "#WN",
+        " P ",
+        " / "
+    ],
+    "key": {
+        "#": {
+            "item": "minecraft:diamond_axe"
+        },
+        "W": {
+            "item": "minecraft:diamond_shovel"
+        },
+        "N": {
+            "item": "minecraft:diamond_pickaxe"
+        },
+        "P": {
+            "item": "minecraft:diamond_sword"
+        },
+        "/": {
+            "item": "minecraft:stick"
+        }
+    },
+    "result": {
+        "item": "blatblock:diamond_multitool",
+        "count": 1
+    }
+}

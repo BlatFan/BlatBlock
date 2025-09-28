@@ -1,0 +1,65 @@
+{
+  "title": "blatblock.blatblock.start",
+  "title_color": "#42bd41",
+  "texture": "blatblock:textures/gui/start.png",
+  "block_cost": -1,
+  "block_calc": "16 * level + 30",
+  "blocks": [
+    {
+      "block": "minecraft:grass_block",
+      "chance": "0.15",
+      "level": 3
+    },
+    {
+      "block": "minecraft:gravel",
+      "chance": "0.15",
+      "level": 3
+    },
+    {
+      "block": "minecraft:sand",
+      "chance": "0.15",
+      "level": 4
+    },
+    {
+      "block": "minecraft:dirt",
+      "chance": "0.5"
+    },
+    {
+      "block": "minecraft:stone",
+      "chance": "0.2",
+      "level": 2
+    },
+    {
+      "block": "minecraft:oak_log",
+      "chance": "0.3",
+      "level": 1
+    },
+    {
+      "block": "minecraft:water",
+      "chance": "0.1",
+      "level": 10
+    }
+  ],
+  "entities": [
+    {
+      "entity": "minecraft:chicken",
+      "chance": "0.1+((level-5)/10)*0.01",
+      "level": 5
+    },
+    {
+      "entity": "minecraft:pig",
+      "chance": "0.1+((level-6)/10)*0.01",
+      "level": 6
+    },
+    {
+      "entity": "minecraft:cow",
+      "chance": "0.1+((level-7)/10)*0.01",
+      "level": 7
+    },
+    {
+      "entity": "minecraft:sheep",
+      "chance": "0.1+((level-8)/10)*0.01",
+      "level": 8
+    }
+  ]
+}

@@ -1,0 +1,16 @@
+{
+  "blocks": [
+    {
+      "block": "minecraft:dirt",
+      "chance": 0.5
+    },
+    {
+      "block": "minecraft:stone",
+      "chance": 0.2
+    },
+    {
+      "block": "minecraft:oak_log",
+      "chance": 0.3
+    }
+  ]
+}

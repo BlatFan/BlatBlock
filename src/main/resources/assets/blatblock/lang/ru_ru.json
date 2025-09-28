@@ -1,0 +1,17 @@
+{
+  "blatblock.blatblock.start": "Start",
+  "blatblock.blatblock.cave": "Cave",
+  
+  "tooltip.blatblock.max": "MAX",
+  "tooltip.blatblock.level": "%s - level %s",
+  "tooltip.blatblock.max_level": "MAX LEVEL REACHED",
+  "tooltip.blatblock.mined_with_next": "Mined: %s / %s",
+  "tooltip.blatblock.mined": "Mined: %s",
+  "tooltip.blatblock.progress": "Progress: %s",
+  "tooltip.blatblock.source": "Source: %s",
+  "tooltip.blatblock.source.generator": "Generator",
+  
+  "panorama.blatblock": "OneBlock",
+  
+  "generator.blatblock.empty_generator": "BlatBlock"
+}

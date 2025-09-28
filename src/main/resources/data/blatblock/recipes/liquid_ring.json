@@ -1,0 +1,26 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "pattern": [
+        "ADB",
+        "D D",
+        "SD "
+    ],
+    "key": {
+        "D": {
+            "item": "minecraft:diamond"
+        },
+        "A": {
+            "item": "minecraft:amethyst_shard"
+        },
+        "S": {
+            "item": "minecraft:netherite_scrap"
+        },
+        "B": {
+            "item": "minecraft:blaze_powder"
+        }
+    },
+    "result": {
+        "item": "blatblock:entity_ring",
+        "count": 1
+    }
+}

@@ -1,0 +1,29 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "pattern": [
+        "#WN",
+        " P ",
+        " / "
+    ],
+    "key": {
+        "#": {
+            "item": "minecraft:wooden_axe"
+        },
+        "W": {
+            "item": "minecraft:wooden_shovel"
+        },
+        "N": {
+            "item": "minecraft:wooden_pickaxe"
+        },
+        "P": {
+            "item": "minecraft:wooden_sword"
+        },
+        "/": {
+            "item": "minecraft:stick"
+        }
+    },
+    "result": {
+        "item": "minecraft:barrier",
+        "count": 1
+    }
+}

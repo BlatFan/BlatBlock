@@ -1,0 +1,199 @@
+{
+  "title": "blatblock.blatblock.plants",
+  "title_color": "#42bd41",
+  "texture": "blatblock:textures/gui/plants",
+  "block_cost": 100,
+  "block_calc": "16 * level + 64",
+  "blocks": [
+    {
+      "block": "minecraft:dirt",
+      "chance": "0.4-(level/10)*0.039"
+    },
+    {
+      "block": "minecraft:grass_block",
+      "chance": "0.3-(level/10)*0.014"
+    },
+    {
+      "block": "minecraft:allium",
+      "chance": "0.15+((level-1)/10)*0.015",
+      "level": 1
+    },
+    {
+      "block": "minecraft:azure_bluet",
+      "chance": "0.15+((level-1)/10)*0.015",
+      "level": 1
+    },
+    {
+      "block": "minecraft:blue_orchid",
+      "chance": "0.15+((level-1)/10)*0.015",
+      "level": 1
+    },
+    {
+      "block": "minecraft:brown_mushroom",
+      "chance": "0.15+((level-1)/10)*0.015",
+      "level": 1
+    },
+    {
+      "block": "minecraft:cornflower",
+      "chance": "0.15+((level-1)/10)*0.015",
+      "level": 1
+    },
+    {
+      "block": "minecraft:dandelion",
+      "chance": "0.15+((level-1)/10)*0.015",
+      "level": 1
+    },
+    {
+      "block": "minecraft:dead_bush",
+      "chance": "0.15+((level-1)/10)*0.015",
+      "level": 1
+    },
+    {
+      "block": "minecraft:fern",
+      "chance": "0.15+((level-1)/10)*0.015",
+      "level": 1
+    },
+    {
+      "block": "minecraft:kelp_plant",
+      "chance": "0.15+((level-1)/10)*0.015",
+      "level": 1
+    },
+    {
+      "block": "minecraft:lily_of_the_valley",
+      "chance": "0.15+((level-1)/10)*0.015",
+      "level": 1
+    },
+    {
+      "block": "minecraft:orange_tulip",
+      "chance": "0.15+((level-1)/10)*0.015",
+      "level": 1
+    },
+    {
+      "block": "minecraft:oxeye_daisy",
+      "chance": "0.15+((level-1)/10)*0.015",
+      "level": 1
+    },
+    {
+      "block": "minecraft:pink_petals",
+      "chance": "0.15+((level-1)/10)*0.015",
+      "level": 1
+    },
+    {
+      "block": "minecraft:red_mushroom",
+      "chance": "0.15+((level-1)/10)*0.015",
+      "level": 1
+    },
+    {
+      "block": "minecraft:red_tulip",
+      "chance": "0.15+((level-1)/10)*0.015",
+      "level": 1
+    },
+    {
+      "block": "minecraft:sunflower_front",
+      "chance": "0.15+((level-1)/10)*0.015",
+      "level": 1
+    },
+    {
+      "block": "minecraft:white_tulip",
+      "chance": "0.15+((level-1)/10)*0.015",
+      "level": 1
+    },
+    {
+      "block": "minecraft:acacia_sapling",
+      "chance": "0.1+((level-2)/10)*0.01",
+      "level": 2
+    },
+    {
+      "block": "minecraft:birch_sapling",
+      "chance": "0.1+((level-2)/10)*0.01",
+      "level": 2
+    },
+    {
+      "block": "minecraft:cherry_sapling",
+      "chance": "0.1+((level-2)/10)*0.01",
+      "level": 2
+    },
+    {
+      "block": "minecraft:dark_oak_sapling",
+      "chance": "0.1+((level-2)/10)*0.01",
+      "level": 2
+    },
+    {
+      "block": "minecraft:jungle_sapling",
+      "chance": "0.1+((level-2)/10)*0.01",
+      "level": 2
+    },
+    {
+      "block": "minecraft:oak_sapling",
+      "chance": "0.1+((level-2)/10)*0.01",
+      "level": 2
+    },
+    {
+      "block": "minecraft:spruce_sapling",
+      "chance": "0.1+((level-2)/10)*0.01",
+      "level": 2
+    },
+    {
+      "block": "minecraft:wheat",
+      "chance": "0.15+((level-3)/10)*0.015",
+      "level": 3
+    },
+    {
+      "block": "minecraft:carrots",
+      "chance": "0.15+((level-4)/10)*0.015",
+      "level": 4
+    },
+    {
+      "block": "minecraft:potatoes",
+      "chance": "0.15+((level-4)/10)*0.015",
+      "level": 4
+    },
+    {
+      "block": "minecraft:beetroots",
+      "chance": "0.15+((level-5)/10)*0.015",
+      "level": 5
+    },
+    {
+      "block": "minecraft:sugar_cane",
+      "chance": "0.15+((level-5)/10)*0.015",
+      "level": 5
+    },
+    {
+      "block": "minecraft:water",
+      "chance": "0.1",
+      "level": 6
+    },
+    {
+      "block": "minecraft:cocoa",
+      "chance": "0.1",
+      "level": 6
+    },
+    {
+      "block": "minecraft:bamboo",
+      "chance": "0.1",
+      "level": 6
+    }
+  ],
+  "entities": [
+    {
+      "entity": "minecraft:chicken",
+      "chance": "0.1+((level-5)/10)*0.01",
+      "level": 5
+    },
+    {
+      "entity": "minecraft:pig",
+      "chance": "0.1+((level-6)/10)*0.01",
+      "level": 6
+    },
+    {
+      "entity": "minecraft:cow",
+      "chance": "0.1+((level-7)/10)*0.01",
+      "level": 7
+    },
+    {
+      "entity": "minecraft:sheep",
+      "chance": "0.1+((level-8)/10)*0.01",
+      "level": 8
+    }
+  ]
+}

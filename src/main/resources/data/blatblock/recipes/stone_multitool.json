@@ -1,0 +1,29 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "pattern": [
+        "#WN",
+        " P ",
+        " / "
+    ],
+    "key": {
+        "#": {
+            "item": "minecraft:stone_axe"
+        },
+        "W": {
+            "item": "minecraft:stone_shovel"
+        },
+        "N": {
+            "item": "minecraft:stone_pickaxe"
+        },
+        "P": {
+            "item": "minecraft:stone_sword"
+        },
+        "/": {
+            "item": "minecraft:stick"
+        }
+    },
+    "result": {
+        "item": "blatblock:stone_multitool",
+        "count": 1
+    }
+}

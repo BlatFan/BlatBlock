@@ -1,0 +1,29 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "pattern": [
+        "#WN",
+        " P ",
+        " / "
+    ],
+    "key": {
+        "#": {
+            "item": "minecraft:iron_axe"
+        },
+        "W": {
+            "item": "minecraft:iron_shovel"
+        },
+        "N": {
+            "item": "minecraft:iron_pickaxe"
+        },
+        "P": {
+            "item": "minecraft:iron_sword"
+        },
+        "/": {
+            "item": "minecraft:stick"
+        }
+    },
+    "result": {
+        "item": "blatblock:iron_multitool",
+        "count": 1
+    }
+}

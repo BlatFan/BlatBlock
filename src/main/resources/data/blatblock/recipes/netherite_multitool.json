@@ -1,0 +1,29 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "pattern": [
+        "#WN",
+        " P ",
+        " / "
+    ],
+    "key": {
+        "#": {
+            "item": "minecraft:netherite_axe"
+        },
+        "W": {
+            "item": "minecraft:netherite_shovel"
+        },
+        "N": {
+            "item": "minecraft:netherite_pickaxe"
+        },
+        "P": {
+            "item": "minecraft:netherite_sword"
+        },
+        "/": {
+            "item": "minecraft:stick"
+        }
+    },
+    "result": {
+        "item": "blatblock:netherite_multitool",
+        "count": 1
+    }
+}

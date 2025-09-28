@@ -1,0 +1,9 @@
+{
+  "replace": false,
+  "values": [
+    "blatblock:drop_ring",
+    "blatblock:entity_ring",
+    "blatblock:tag_ring",
+    "blatblock:liquid_ring"
+  ]
+}

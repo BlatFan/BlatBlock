@@ -1,0 +1,29 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "pattern": [
+        "#WN",
+        " P ",
+        " / "
+    ],
+    "key": {
+        "#": {
+            "item": "minecraft:golden_axe"
+        },
+        "W": {
+            "item": "minecraft:golden_shovel"
+        },
+        "N": {
+            "item": "minecraft:golden_pickaxe"
+        },
+        "P": {
+            "item": "minecraft:golden_sword"
+        },
+        "/": {
+            "item": "minecraft:stick"
+        }
+    },
+    "result": {
+        "item": "blatblock:golden_multitool",
+        "count": 1
+    }
+}
