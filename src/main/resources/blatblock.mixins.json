@@ -1,9 +1,9 @@
 {
   "required": true,
   "minVersion": "0.8",
-  "package": "ru.blatfan.blatblock",
+  "package": "ru.blatfan.blatblock.mixin",
   "compatibilityLevel": "JAVA_8",
-  "refmap": "blatskills.refmap.json",
+  "refmap": "blatblock.refmap.json",
   "mixins": [
   ],
   "client": [
