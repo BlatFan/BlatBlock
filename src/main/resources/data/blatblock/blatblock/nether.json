@@ -1,34 +1,115 @@
 {
-  "title": "blatblock.blatblock.end",
-  "title_color": "#42bd41",
-  "texture": "blatblock:textures/gui/end.png",
-  "block_cost": 2000,
-  "block_calc": "4*level*level+40*level",
+  "title": "blatblock.blatblock.nether",
+  "title_color": "#e84e40",
+  "texture": "blatblock:textures/gui/nether.png",
+  "background": "blatblock:textures/gui/nether_bg.png",
+  "block_cost": 1500,
+  "sort": 2,
+  "block_calc": "3*level*level+30*(level+1)",
   "blocks": [
     {
-      "block": "minecraft:end_stone",
-      "chance": "0.9"
+      "block": "minecraft:netherrack",
+      "chance": "0.4-(level/10)*0.035"
     },
     {
       "block": "minecraft:obsidian",
-      "chance": "0.1"
+      "chance": "0.1+(level/10)*0.01"
+    },
+    {
+      "block": "minecraft:soul_sand",
+      "chance": "0.1+(level/10)*0.03"
+    },
+    {
+      "block": "minecraft:crimson_nylium",
+      "chance": "0.15+((level-2)/10)*0.015",
+      "level": 2
+    },
+    {
+      "block": "minecraft:crying_obsidian",
+      "chance": "0.15+((level-2)/10)*0.015",
+      "level": 2
+    },
+    {
+      "block": "minecraft:lava",
+      "chance": "0.15",
+      "level": 2
+    },
+    {
+      "block": "minecraft:magma",
+      "chance": "0.15+((level-2)/10)*0.015",
+      "level": 2
+    },
+    {
+      "block": "minecraft:warped_nylium",
+      "chance": "0.15+((level-2)/10)*0.015",
+      "level": 2
+    },
+    {
+      "block": "minecraft:warped_roots",
+      "chance": "0.15+((level-2)/10)*0.015",
+      "level": 2
+    },
+    {
+      "block": "minecraft:weeping_vines",
+      "chance": "0.15+((level-2)/10)*0.015",
+      "level": 2
+    },
+    {
+      "block": "minecraft:crimson_stem",
+      "chance": "0.15+((level-4)/10)*0.015",
+      "level": 4
+    },
+    {
+      "block": "minecraft:nether_bricks",
+      "chance": "0.15+((level-4)/10)*0.015",
+      "level": 4
+    },
+    {
+      "block": "minecraft:red_nether_bricks",
+      "chance": "0.15+((level-4)/10)*0.015",
+      "level": 4
+    },
+    {
+      "block": "minecraft:warped_stem",
+      "chance": "0.15+((level-4)/10)*0.015",
+      "level": 4
+    },
+    {
+      "block": "minecraft:nether_wart",
+      "chance": "0.15+((level-6)/10)*0.015",
+      "level": 6
+    },
+    {
+      "block": "minecraft:nether_gold_ore",
+      "chance": "0.15+((level-8)/10)*0.015",
+      "level": 8
+    },
+    {
+      "block": "minecraft:nether_quartz_ore",
+      "chance": "0.15+((level-10)/10)*0.015",
+      "level": 10
+    },
+    {
+      "block": "minecraft:ancient_debris",
+      "chance": "0.01+((level-20)/10)*0.001",
+      "level": 20
     }
   ],
   "entities": [
     {
-      "entity": "minecraft:enderman",
-      "chance": "0.1",
-      "level": 5
+      "entity": "minecraft:zombified_piglin",
+      "chance": "0.1-((level-1)/10)*0.01",
+      "level": 1
     },
     {
-      "entity": "minecraft:endermite",
-      "chance": "0.1",
-      "level": 6
+      "entity": "minecraft:blaze",
+      "chance": "0.1+((level-9)/10)*0.01",
+      "level": 9
     },
     {
-      "entity": "minecraft:shulker",
-      "chance": "0.1",
-      "level": 7
+      "entity": "minecraft:wither_skeleton",
+      "chance": "0.1+((level-15)/10)*0.01",
+      "level": 15
     }
   ]
 }

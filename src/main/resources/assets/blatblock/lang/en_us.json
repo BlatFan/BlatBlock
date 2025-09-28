@@ -1,3 +1,36 @@
 {
-  "blatblock.blatblock.start": "Start"
+  "blatblock.blatblock.start": "Start",
+  "blatblock.blatblock.plants": "Plants",
+  "blatblock.blatblock.cave": "Cave",
+  "blatblock.blatblock.nether": "Nether",
+  "blatblock.blatblock.end": "End",
+  
+  "block.blatblock.blat_generator": "Generator",
+  "item.blatblock.entity_ring": "Entity Ring",
+  "item.blatblock.tag_ring": "Tag Ring",
+  "item.blatblock.drop_ring": "Drop Ring",
+  "item.blatblock.liquid_ring": "Liquid Ring",
+  
+  "item.blatblock.wooden_multitool": "Wooden Multitool",
+  "item.blatblock.stone_multitool": "Stone Multitool",
+  "item.blatblock.iron_multitool": "Iron Multitool",
+  "item.blatblock.golden_multitool": "Golden Multitool",
+  "item.blatblock.diamond_multitool": "Diamond Multitool",
+  "item.blatblock.netherite_multitool": "Netherite Multitool",
+  
+  "tooltip.blatblock.max": "MAX",
+  "tooltip.blatblock.level": "%s - level %s",
+  "tooltip.blatblock.max_level": "MAX LEVEL REACHED",
+  "tooltip.blatblock.mined_with_next": "Mined: %s / %s",
+  "tooltip.blatblock.mined": "Mined: %s",
+  "tooltip.blatblock.progress": "Progress: %s",
+  "tooltip.blatblock.chance": "Chance: ",
+  "tooltip.blatblock.set": "Set",
+  "tooltip.blatblock.buy": "Open",
+  "tooltip.blatblock.source": "Source: %s",
+  "tooltip.blatblock.source.generator": "Generator",
+  
+  "panorama.blatblock": "OneBlock",
+  
+  "generator.blatblock.empty_generator": "BlatBlock"
 }

@@ -3,7 +3,7 @@
     "pattern": [
         "ADB",
         "D D",
-        "SD "
+        "SDA"
     ],
     "key": {
         "D": {
@@ -16,11 +16,11 @@
             "item": "minecraft:netherite_scrap"
         },
         "B": {
-            "item": "minecraft:blaze_powder"
+            "item": "minecraft:bucket"
         }
     },
     "result": {
-        "item": "blatblock:entity_ring",
+        "item": "blatblock:liquid_ring",
         "count": 1
     }
 }

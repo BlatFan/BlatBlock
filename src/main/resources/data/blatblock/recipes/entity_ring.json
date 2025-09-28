@@ -1,29 +1,26 @@
 {
     "type": "minecraft:crafting_shaped",
     "pattern": [
-        "#WN",
-        " P ",
-        " / "
+        "ADB",
+        "D D",
+        "SDA"
     ],
     "key": {
-        "#": {
-            "item": "minecraft:diamond_axe"
+        "D": {
+            "item": "minecraft:diamond"
         },
-        "W": {
-            "item": "minecraft:diamond_shovel"
+        "A": {
+            "item": "minecraft:amethyst_shard"
         },
-        "N": {
-            "item": "minecraft:diamond_pickaxe"
+        "S": {
+            "item": "minecraft:netherite_scrap"
         },
-        "P": {
-            "item": "minecraft:diamond_sword"
-        },
-        "/": {
-            "item": "minecraft:stick"
+        "B": {
+            "item": "minecraft:blaze_powder"
         }
     },
     "result": {
-        "item": "blatblock:diamond_multitool",
+        "item": "blatblock:entity_ring",
         "count": 1
     }
 }
