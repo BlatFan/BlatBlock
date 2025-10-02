@@ -2,21 +2,21 @@ package ru.blatfan.blatblock.common.data;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
-import lombok.Getter;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.server.packs.resources.SimpleJsonResourceReloadListener;
 import net.minecraft.util.profiling.ProfilerFiller;
 import ru.blatfan.blatblock.BlatBlock;
+import ru.blatfan.blatblock.compat.kubejs.bbl.BBLRegistryJS;
 
 import java.awt.*;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class BlatBlockManager extends SimpleJsonResourceReloadListener {
-    public static final BlatBlockLevel NULL_BBL = new BlatBlockLevel(Component.literal("NULL"), Color.RED, 0, new ArrayList<>(), new ArrayList<>(), "0", BlatBlock.loc("textures/gui/base.png"), null, 0);
-    private static final Map<ResourceLocation, BlatBlockLevel> data = new ConcurrentHashMap<>();
+    public static final BlatBlockLayer NULL_BBL = new BlatBlockLayer(Component.literal("NULL"), Color.RED, 0, new ArrayList<>(), new ArrayList<>(), "0", BlatBlock.loc("textures/gui/base.png"), null, 0);
+    private static final Map<ResourceLocation, BlatBlockLayer> data = new ConcurrentHashMap<>();
     private static ResourceLocation baseId;
     
     private static final Object reloadLock = new Object();
@@ -30,7 +30,7 @@ public class BlatBlockManager extends SimpleJsonResourceReloadListener {
     @Override
     protected void apply(Map<ResourceLocation, JsonElement> pObject, ResourceManager pResourceManager, ProfilerFiller pProfiler) {
         synchronized (reloadLock) {
-            Map<ResourceLocation, BlatBlockLevel> oldData = new HashMap<>(data);
+            Map<ResourceLocation, BlatBlockLayer> oldData = new HashMap<>(data);
             ResourceLocation oldBaseId = baseId;
             
             data.clear();
@@ -43,10 +43,10 @@ public class BlatBlockManager extends SimpleJsonResourceReloadListener {
                     if (entry.getValue() == null || !entry.getValue().isJsonObject())
                         throw new IllegalArgumentException("Invalid JSON structure");
                     
-                    BlatBlockLevel bbl = BlatBlockLevel.fromJson(entry.getValue());
+                    BlatBlockLayer bbl = BlatBlockLayer.fromJson(entry.getValue());
                     
                     if (bbl == null)
-                        throw new IllegalStateException("BlatBlockLevel.fromJson returned null");
+                        throw new IllegalStateException("BlatBlockLayer.fromJson returned null");
                     
                     
                     data.put(entry.getKey(), bbl);
@@ -55,11 +55,11 @@ public class BlatBlockManager extends SimpleJsonResourceReloadListener {
                     if (bbl.getBlockCost() == -1 && newBaseId == null)
                         newBaseId = entry.getKey();
                     
-                    BlatBlock.LOGGER.debug("Successfully loaded BlatBlockLevel: {}", entry.getKey());
+                    BlatBlock.LOGGER.debug("Successfully loaded BlatBlockLayer: {}", entry.getKey());
                     
                 } catch (Exception e) {
                     errorCount++;
-                    BlatBlock.LOGGER.error("Failed to load BlatBlockLevel {}: {} - {}",
+                    BlatBlock.LOGGER.error("Failed to load BlatBlockLayer {}: {} - {}",
                         entry.getKey(), e.getClass().getSimpleName(), e.getMessage());
                     
                     if (BlatBlock.DEBUG_MODE)
@@ -68,13 +68,13 @@ public class BlatBlockManager extends SimpleJsonResourceReloadListener {
             }
             
             if (loadedCount == 0) {
-                BlatBlock.LOGGER.error("Failed to load any BlatBlockLevels! Restoring previous data...");
+                BlatBlock.LOGGER.error("Failed to load any BlatBlockLayers! Restoring previous data...");
                 data.putAll(oldData);
                 baseId = oldBaseId;
             } else {
                 if (newBaseId != null) {
                     baseId = newBaseId;
-                    BlatBlock.LOGGER.info("Set base BlatBlockLevel: {}", baseId);
+                    BlatBlock.LOGGER.info("Set base BlatBlockLayer: {}", baseId);
                 } else if (!data.isEmpty()) {
                     baseId = data.keySet().iterator().next();
                     BlatBlock.LOGGER.warn("No explicit base level found, using first available: {}", baseId);
@@ -85,22 +85,30 @@ public class BlatBlockManager extends SimpleJsonResourceReloadListener {
             }
             
             if (errorCount > 0)
-                BlatBlock.LOGGER.warn("Loaded {} BlatBlockLevels with {} errors", loadedCount, errorCount);
+                BlatBlock.LOGGER.warn("Loaded {} BlatBlockLayers with {} errors", loadedCount, errorCount);
             else
-                BlatBlock.LOGGER.info("Successfully loaded {} BlatBlockLevels", loadedCount);
+                BlatBlock.LOGGER.info("Successfully loaded {} BlatBlockLayers", loadedCount);
         }
     }
     
-    public static Map<ResourceLocation, BlatBlockLevel> getData() {
+    public static Map<ResourceLocation, BlatBlockLayer> getData() {
         return Collections.unmodifiableMap(BlatBlockManager.data);
     }
     
-    public static BlatBlockLevel get(ResourceLocation id){
+    public static BlatBlockLayer get(ResourceLocation id){
         return data.getOrDefault(id, NULL_BBL);
     }
     
-    public static boolean isInitialized() {
-        return !data.isEmpty() && baseId != null;
+    public static void add(ResourceLocation id, BlatBlockLayer layer){
+        if(data.containsKey(id)) remove(id);
+        data.put(id, layer);
+    }
+    public static void remove(ResourceLocation id){
+        if(!data.containsKey(id)) return;
+        data.remove(id);
+    }
+    public static void removeAll(){
+        data.clear();
     }
     
     public static ResourceLocation getBaseId() {

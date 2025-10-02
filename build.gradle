@@ -93,6 +93,17 @@ repositories {
         name = "Curios maven"
         url = uri("https://maven.theillusivec4.top/")
     }
+
+    maven {
+        url "https://maven.architectury.dev/"
+    }
+    maven {
+        url "https://maven.latvian.dev/releases"
+        content {
+            includeGroup "dev.latvian.mods"
+            includeGroup "dev.latvian.apps"
+        }
+    }
 }
 
 dependencies {
@@ -103,6 +114,10 @@ dependencies {
     compileOnly fg.deobf("mezz.jei:jei-${minecraft_version}-forge-api:${jei_version}")
     implementation fg.deobf("curse.maven:jade-324717:5493390")
     compileOnly fg.deobf("top.theillusivec4.curios:curios-forge:${curios_version}:api")
+
+    implementation fg.deobf("dev.architectury:architectury-forge:${architectury_version}")
+    implementation fg.deobf("dev.latvian.mods:rhino-forge:${rhino_version}")
+    implementation fg.deobf("dev.latvian.mods:kubejs-forge:${kubejs_version}")
 
     // Lombok
     compileOnly 'org.projectlombok:lombok:1.18.20'
@@ -136,7 +151,8 @@ tasks.named('processResources', ProcessResources).configure {
                              loader_version_range: loader_version_range,
                              mod_id              : mod_id, mod_name: mod_name, mod_license: mod_license, mod_version: mod_version,
                              mod_authors         : mod_authors, mod_description: mod_description,
-                             jei_version: jei_version, blatapi_version: blatapi_version, blatapi_id: blatapi_id, curios_version: curios_version
+                             jei_version: jei_version, blatapi_version: blatapi_version, blatapi_id: blatapi_id, curios_version: curios_version,
+                             rhino_version: rhino_version, kubejs_version: kubejs_version, architectury_version: architectury_version,
     ]
 
     inputs.properties replaceProperties

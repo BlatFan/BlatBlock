@@ -18,7 +18,7 @@ import ru.blatfan.blatapi.fluffy_fur.common.block.entity.BlockEntityBase;
 import ru.blatfan.blatapi.utils.Text;
 import ru.blatfan.blatblock.BlatBlock;
 import ru.blatfan.blatblock.common.BBRegistry;
-import ru.blatfan.blatblock.common.data.BlatBlockLevel;
+import ru.blatfan.blatblock.common.data.BlatBlockLayer;
 import ru.blatfan.blatblock.common.data.BlatBlockManager;
 
 import java.util.*;
@@ -53,13 +53,13 @@ public class BlatGeneratorBlockEntity extends BlockEntityBase {
             if (level.getBlockState(pos.above()).isAir() && getMinedBlock()>0) {
                 Player player = level.getNearestPlayer(pos.getX(), pos.getY(), pos.getZ(), 5, false);
                 addMinedBlock(1);
-                BlatBlockLevel lvlData = BlatBlockManager.get(this.currentBBLevel);
+                BlatBlockLayer lvlData = BlatBlockManager.get(this.currentBBLevel);
                 if(player!=null && player.blockPosition().distSqr(Vec3i.ZERO) <= 2)
                     player.setDeltaMovement(new Vec3(0, 1, 0));
                 if (lvlData != null) {
                     lvlData.rand(player, level, pos.above(), random, getCurrentLevel());
                 } else {
-                    BlatBlock.LOGGER.warn("No BlatBlockLevel data for {}", this.currentBBLevel);
+                    BlatBlock.LOGGER.warn("No BlatBlockLayer data for {}", this.currentBBLevel);
                     this.currentBBLevel=BlatBlockManager.getBaseId();
                 }
                 setChanged();
@@ -113,7 +113,7 @@ public class BlatGeneratorBlockEntity extends BlockEntityBase {
     
     public List<Component> getRenderText() {
         List<Component> list = new ArrayList<>();
-        BlatBlockLevel bbl = BlatBlockManager.NULL_BBL;
+        BlatBlockLayer bbl = BlatBlockManager.NULL_BBL;
         
         try {
             bbl = BlatBlockManager.get(currentBBLevel);
@@ -161,7 +161,7 @@ public class BlatGeneratorBlockEntity extends BlockEntityBase {
     public List<ResourceLocation> getSorted() {
         return minedBlocks.keySet().stream()
             .sorted(Comparator.comparingInt(id -> {
-                BlatBlockLevel level = BlatBlockManager.get(id);
+                BlatBlockLayer level = BlatBlockManager.get(id);
                 return level != null ? level.getSort() : Integer.MAX_VALUE;
             }))
             .collect(Collectors.toList());
@@ -172,9 +172,9 @@ public class BlatGeneratorBlockEntity extends BlockEntityBase {
     }
     
     public int getLevelBlocks(ResourceLocation id) {
-        BlatBlockLevel lvlData = BlatBlockManager.get(id);
+        BlatBlockLayer lvlData = BlatBlockManager.get(id);
         if (lvlData == null) {
-            BlatBlock.LOGGER.warn("No BlatBlockLevel for {} in getBlockLevel()", id);
+            BlatBlock.LOGGER.warn("No BlatBlockLayer for {} in getBlockLevel()", id);
             return 0;
         }
         return (int) lvlData.calcBlocks(getCurrentLevel());
@@ -185,9 +185,9 @@ public class BlatGeneratorBlockEntity extends BlockEntityBase {
     }
     
     public int getCurrentLevel(ResourceLocation id) {
-        BlatBlockLevel lvlData = BlatBlockManager.get(id);
+        BlatBlockLayer lvlData = BlatBlockManager.get(id);
         if (lvlData == null) {
-            BlatBlock.LOGGER.warn("No BlatBlockLevel for {} in getCurrentLevel()", id);
+            BlatBlock.LOGGER.warn("No BlatBlockLayer for {} in getCurrentLevel()", id);
             return 0;
         }
         

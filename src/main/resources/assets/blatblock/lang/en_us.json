@@ -32,5 +32,8 @@
   
   "panorama.blatblock": "OneBlock",
   
-  "generator.blatblock.empty_generator": "BlatBlock"
+  "generator.blatblock.empty_generator": "BlatBlock",
+  
+  "jei.blatblock.blocks": "Blocks",
+  "jei.blatblock.entities": "Entities"
 }

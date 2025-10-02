@@ -28,7 +28,11 @@ import ru.blatfan.blatapi.utils.NBTHelper;
 import ru.blatfan.blatapi.utils.PlayerUtil;
 import ru.blatfan.blatblock.common.BBRegistry;
 import ru.blatfan.blatblock.common.block.blatgenerator.BlatGeneratorBlock;
+import ru.blatfan.blatblock.common.data.BlatBlockLayer;
+import ru.blatfan.blatblock.common.data.BlatBlockManager;
 import ru.blatfan.blatblock.util.PlayerSettings;
+
+import java.util.Random;
 
 public class GeneratorEvents {
     @SubscribeEvent
@@ -77,12 +81,19 @@ public class GeneratorEvents {
         
         if (isEmptyVoidWorld(level)) {
             BlockPos generatorPos = new BlockPos(0, 0, 0);
-            if (level.getBlockState(generatorPos).isAir())
+            if (level.getBlockState(generatorPos).isAir()) {
                 level.setBlock(generatorPos, BBRegistry.BLOCKS.BLAT_GENERATOR.get().defaultBlockState(), 3);
+                BlatBlockLayer bbl = BlatBlockManager.get(BlatBlockManager.getBaseId());
+                BlockState state = bbl.getRandBlock(new Random(), 0);
+                level.setBlock(generatorPos.offset(1, 0, 0), state, 3);
+                level.setBlock(generatorPos.offset(-1, 0, 0), state, 3);
+                level.setBlock(generatorPos.offset(0, 0, 1), state, 3);
+                level.setBlock(generatorPos.offset(0, 0, -1), state, 3);
+            }
             if (player.blockPosition().distSqr(Vec3i.ZERO) > 100 && !PlayerStages.get(player, "bb_first_join")) {
                 player.teleportTo(0.5, 2, 0.5);
                 PlayerStages.add(player, "bb_first_join");
-                player.addEffect(new MobEffectInstance(MobEffects.SLOW_FALLING, 60*20, 4, true, true, true));
+                player.addEffect(new MobEffectInstance(MobEffects.SATURATION, 60*20, 4, true, true, true));
             }
         }
     }

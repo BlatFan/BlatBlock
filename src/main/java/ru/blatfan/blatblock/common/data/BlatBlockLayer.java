@@ -1,5 +1,6 @@
 package ru.blatfan.blatblock.common.data;
 
+import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import lombok.Getter;
@@ -16,7 +17,6 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.LiquidBlock;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import ru.blatfan.blatapi.utils.ColorHelper;
 import ru.blatfan.blatapi.utils.Text;
@@ -25,11 +25,13 @@ import ru.blatfan.blatblock.util.MathEvaluator;
 import ru.blatfan.blatblock.util.PlayerSettings;
 
 import java.awt.*;
-import java.util.*;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
-@RequiredArgsConstructor@Getter
-public class BlatBlockLevel {
+@RequiredArgsConstructor
+@Getter
+public class BlatBlockLayer {
     private final Component title;
     private final Color titleColor;
     private final int blockCost;
@@ -40,9 +42,9 @@ public class BlatBlockLevel {
     private final ResourceLocation bg;
     private final int sort;
     
-    public static BlatBlockLevel fromJson(JsonElement element) {
+    public static BlatBlockLayer fromJson(JsonElement element) {
         if (element == null || !element.isJsonObject())
-            throw new IllegalArgumentException("Invalid JSON element for BlatBlockLevel");
+            throw new IllegalArgumentException("Invalid JSON element for BlatBlockLayer");
         JsonObject json = element.getAsJsonObject();
         List<Entry> blocks = new ArrayList<>();
         List<Entry> entities = new ArrayList<>();
@@ -78,14 +80,42 @@ public class BlatBlockLevel {
         Component title = Text.create(json.get("title").getAsString()).asComponent();
         Color color = json.has("title_color") ? ColorHelper.getColor(json.get("title_color").getAsString()) : Color.WHITE;
         int sort = json.has("sort") ? json.get("sort").getAsInt() : 1;
-        return new BlatBlockLevel(title, color, blockCost, blocks, entities, levelcalc, texture, bg, sort);
+        return new BlatBlockLayer(title, color, blockCost, blocks, entities, levelcalc, texture, bg, sort);
+    }
+    public JsonElement toJson() {
+        JsonObject json = new JsonObject();
+        JsonArray blocks = new JsonArray();
+        JsonArray entities = new JsonArray();
+        
+        for (Entry block : this.blocks)
+            try {
+                blocks.add(block.toBlockJson());
+            } catch (Exception e) {
+                BlatBlock.LOGGER.warn("Failed to serialize block entry: {}", e.getMessage());
+            }
+        
+        for (Entry entity : this.entities)
+            try {
+                entities.add(entity.toEntityJson());
+            } catch (Exception e) {
+                BlatBlock.LOGGER.warn("Failed to serialize entity entry: {}", e.getMessage());
+            }
+        
+        json.addProperty("block_cost", blockCost);
+        json.addProperty("block_calc", blockcalc);
+        json.addProperty("texture", texture.toString());
+        if(bg!=null)json.addProperty("background", bg.toString());
+        json.addProperty("title", title.toString());
+        json.addProperty("title_color", String.format("#%08X", titleColor.getRGB()));
+        json.addProperty("sort", sort);
+        return json;
     }
     
-    public float calcBlocks(int level){
+    public float calcBlocks(int level) {
         try {
             String expr = getBlockcalc();
             return (int) new MathEvaluator(expr)
-                .setVariable("level", level+1)
+                .setVariable("level", level + 1)
                 .evaluate();
         } catch (Exception e) {
             BlatBlock.LOGGER.error("Error evaluating level formula '{}' : {}", getBlockcalc(), e.getMessage());
@@ -93,15 +123,16 @@ public class BlatBlockLevel {
         }
     }
     
-    public Entry get(Block block){
-        for(Entry entry : blocks)
-            if(entry.id().equals(BuiltInRegistries.BLOCK.getKey(block)))
+    public Entry get(Block block) {
+        for (Entry entry : blocks)
+            if (entry.id().equals(BuiltInRegistries.BLOCK.getKey(block)))
                 return entry;
         return null;
     }
-    public Entry get(EntityType<?> entityType){
-        for(Entry entry : entities)
-            if(entry.id().equals(BuiltInRegistries.ENTITY_TYPE.getKey(entityType)))
+    
+    public Entry get(EntityType<?> entityType) {
+        for (Entry entry : entities)
+            if (entry.id().equals(BuiltInRegistries.ENTITY_TYPE.getKey(entityType)))
                 return entry;
         return null;
     }
@@ -143,7 +174,8 @@ public class BlatBlockLevel {
     public void rand(Player player, Level level, BlockPos pos, Random random, int blockLevel) {
         try {
             BlockState blockState = getRandBlock(random, blockLevel);
-            if (blockState != null && blockState.getBlock() instanceof LiquidBlock && !PlayerSettings.setLiquid(player)) blockState = Blocks.AIR.defaultBlockState();
+            if (blockState != null && blockState.getBlock() instanceof LiquidBlock && !PlayerSettings.setLiquid(player))
+                blockState = Blocks.AIR.defaultBlockState();
             if (blockState != null) level.setBlock(pos, blockState, 3);
             
         } catch (Exception e) {
@@ -233,27 +265,42 @@ public class BlatBlockLevel {
         return BuiltInRegistries.ENTITY_TYPE.get(lastEntry.id);
     }
     
-    public List<Block> getBlocks(int blockLevel){
+    public List<Block> getBlocks(int blockLevel) {
         List<Block> blocks = new ArrayList<>();
-        for(Entry entry : this.blocks)
-            if(BuiltInRegistries.BLOCK.containsKey(entry.id) && entry.level<=blockLevel && entry.chance(blockLevel)>0)
+        for (Entry entry : this.blocks)
+            if (BuiltInRegistries.BLOCK.containsKey(entry.id) && entry.level <= blockLevel && entry.chance(blockLevel) > 0)
                 blocks.add(BuiltInRegistries.BLOCK.get(entry.id));
         return blocks;
     }
     
-    public List<EntityType<?>> getEntities(int blockLevel){
+    public List<EntityType<?>> getEntities(int blockLevel) {
         List<EntityType<?>> entityTypes = new ArrayList<>();
-        for(Entry entry : this.entities)
-            if(BuiltInRegistries.ENTITY_TYPE.containsKey(entry.id) && entry.level<=blockLevel && entry.chance(blockLevel)>0)
+        for (Entry entry : this.entities)
+            if (BuiltInRegistries.ENTITY_TYPE.containsKey(entry.id) && entry.level <= blockLevel && entry.chance(blockLevel) > 0)
                 entityTypes.add(BuiltInRegistries.ENTITY_TYPE.get(entry.id));
         return entityTypes;
     }
     
-    public record Entry(ResourceLocation id, String chanceFormul, int level){
-        public float chance(int level){
+    public record Entry(ResourceLocation id, String chanceFormul, int level) {
+        public float chance(int level) {
             MathEvaluator evaluator = new MathEvaluator(chanceFormul)
                 .setVariable("level", level);
             return (float) Math.max(0, evaluator.evaluate());
+        }
+        
+        public JsonObject toBlockJson() {
+            JsonObject json = new JsonObject();
+            json.addProperty("block", id.toString());
+            json.addProperty("chance", chanceFormul);
+            json.addProperty("level", level);
+            return json;
+        }
+        public JsonObject toEntityJson() {
+            JsonObject json = new JsonObject();
+            json.addProperty("entity", id.toString());
+            json.addProperty("chance", chanceFormul);
+            json.addProperty("level", level);
+            return json;
         }
     }
 }

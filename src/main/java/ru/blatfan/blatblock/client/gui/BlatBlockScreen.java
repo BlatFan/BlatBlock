@@ -25,7 +25,7 @@ import ru.blatfan.blatapi.client.render.FluidRenderMap;
 import ru.blatfan.blatapi.utils.*;
 import ru.blatfan.blatblock.BlatBlock;
 import ru.blatfan.blatblock.common.block.blatgenerator.BlatGeneratorBlockEntity;
-import ru.blatfan.blatblock.common.data.BlatBlockLevel;
+import ru.blatfan.blatblock.common.data.BlatBlockLayer;
 import ru.blatfan.blatblock.common.data.BlatBlockManager;
 import ru.blatfan.blatblock.common.network.BBHandler;
 import ru.blatfan.blatblock.common.network.BlatGeneratorPacket;
@@ -77,12 +77,12 @@ public class BlatBlockScreen extends Screen {
         super.init();
     }
     
-    private BlatBlockLevel getBBLevel() {
+    private BlatBlockLayer getBBLevel() {
         return getBBLevel(current);
     }
     
-    private BlatBlockLevel getBBLevel(ResourceLocation id) {
-        BlatBlockLevel level = BlatBlockManager.get(id);
+    private BlatBlockLayer getBBLevel(ResourceLocation id) {
+        BlatBlockLayer level = BlatBlockManager.get(id);
         return level != null ? level : BlatBlockManager.NULL_BBL;
     }
     
@@ -245,7 +245,7 @@ public class BlatBlockScreen extends Screen {
         gui.disableScissor();
     }
     
-    private ItemStack getItemStack(Block block) {
+    public static ItemStack getItemStack(Block block) {
         if (block instanceof LiquidBlock) return null;
         Item blockItem = BlockItem.BY_BLOCK.get(block);
         if (blockItem != null && blockItem != Items.AIR) {

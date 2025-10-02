@@ -3,7 +3,6 @@ package ru.blatfan.blatblock;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.EntityRenderersEvent;
 import net.minecraftforge.common.MinecraftForge;
@@ -31,7 +30,7 @@ import java.awt.*;
 public class BlatBlock {
     public static final String MOD_ID = "blatblock";
     public static final String MOD_NAME = "BlatBlock";
-    public static final String MOD_VERSION = "0.1";
+    public static final String MOD_VERSION = "0.2";
     public static final Logger LOGGER = LoggerFactory.getLogger(MOD_NAME);
     public static final boolean DEBUG_MODE = true;
     
