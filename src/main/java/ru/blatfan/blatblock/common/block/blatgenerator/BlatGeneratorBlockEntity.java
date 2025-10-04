@@ -191,7 +191,7 @@ public class BlatGeneratorBlockEntity extends BlockEntityBase {
             return 0;
         }
         
-        int minedCount = getMinedBlock();
+        int minedCount = getMinedBlock(id);
         int level = 0;
         int maxLevel = 99;
         

@@ -1,10 +1,10 @@
 package ru.blatfan.blatblock.common.data;
 
-import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import lombok.Setter;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
@@ -81,34 +81,6 @@ public class BlatBlockLayer {
         Color color = json.has("title_color") ? ColorHelper.getColor(json.get("title_color").getAsString()) : Color.WHITE;
         int sort = json.has("sort") ? json.get("sort").getAsInt() : 1;
         return new BlatBlockLayer(title, color, blockCost, blocks, entities, levelcalc, texture, bg, sort);
-    }
-    public JsonElement toJson() {
-        JsonObject json = new JsonObject();
-        JsonArray blocks = new JsonArray();
-        JsonArray entities = new JsonArray();
-        
-        for (Entry block : this.blocks)
-            try {
-                blocks.add(block.toBlockJson());
-            } catch (Exception e) {
-                BlatBlock.LOGGER.warn("Failed to serialize block entry: {}", e.getMessage());
-            }
-        
-        for (Entry entity : this.entities)
-            try {
-                entities.add(entity.toEntityJson());
-            } catch (Exception e) {
-                BlatBlock.LOGGER.warn("Failed to serialize entity entry: {}", e.getMessage());
-            }
-        
-        json.addProperty("block_cost", blockCost);
-        json.addProperty("block_calc", blockcalc);
-        json.addProperty("texture", texture.toString());
-        if(bg!=null)json.addProperty("background", bg.toString());
-        json.addProperty("title", title.toString());
-        json.addProperty("title_color", String.format("#%08X", titleColor.getRGB()));
-        json.addProperty("sort", sort);
-        return json;
     }
     
     public float calcBlocks(int level) {
@@ -286,21 +258,6 @@ public class BlatBlockLayer {
             MathEvaluator evaluator = new MathEvaluator(chanceFormul)
                 .setVariable("level", level);
             return (float) Math.max(0, evaluator.evaluate());
-        }
-        
-        public JsonObject toBlockJson() {
-            JsonObject json = new JsonObject();
-            json.addProperty("block", id.toString());
-            json.addProperty("chance", chanceFormul);
-            json.addProperty("level", level);
-            return json;
-        }
-        public JsonObject toEntityJson() {
-            JsonObject json = new JsonObject();
-            json.addProperty("entity", id.toString());
-            json.addProperty("chance", chanceFormul);
-            json.addProperty("level", level);
-            return json;
         }
     }
 }

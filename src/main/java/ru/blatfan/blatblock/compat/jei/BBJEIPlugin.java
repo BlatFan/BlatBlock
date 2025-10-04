@@ -31,33 +31,29 @@ public class BBJEIPlugin implements IModPlugin {
     
     @Override
     public void registerRecipes(IRecipeRegistration registration) {
-        Map<ResourceLocation, BlatBlockLayer> data = BlatBlockManager.getData();
         List<BBLBlocksWrapper> recipesB = new ArrayList<>();
         List<BBLEntitiesWrapper> recipesE = new ArrayList<>();
+
+        List<ResourceLocation> sortedIds = new ArrayList<>(BlatBlockManager.getData().keySet());
+        sortedIds.sort(Comparator.comparing(ResourceLocation::toString));
         
-        for (Map.Entry<ResourceLocation, BlatBlockLayer> entry : data.entrySet()) {
-            ResourceLocation id = entry.getKey();
-            BlatBlockLayer bbl = entry.getValue();
+        for (ResourceLocation id : sortedIds) {
+            BlatBlockLayer layer = BlatBlockManager.get(id);
             
-            Set<Integer> uniqueLevels = new HashSet<>();
-            bbl.getBlocks().forEach(blockEntry -> uniqueLevels.add(blockEntry.level()));
+            Set<Integer> blockLevels = new TreeSet<>();
+            layer.getBlocks().forEach(entry -> blockLevels.add(entry.level()));
+            for (Integer lvl : blockLevels) if (!layer.getBlocks(lvl).isEmpty())
+                recipesB.add(new BBLBlocksWrapper(id, lvl));
             
-            for (Integer level : uniqueLevels)
-                if (!bbl.getBlocks(level).isEmpty())
-                    recipesB.add(new BBLBlocksWrapper(id, level));
+            Set<Integer> entityLevels = new TreeSet<>();
+            layer.getEntities().forEach(entry -> entityLevels.add(entry.level()));
+            for (Integer lvl : entityLevels) if (!layer.getEntities(lvl).isEmpty())
+                recipesE.add(new BBLEntitiesWrapper(id, lvl));
         }
+
+        registration.addRecipes(BBLBlocksCategory.TYPE, recipesB);
+        registration.addRecipes(BBLEntitiesCategory.TYPE, recipesE);
         
-        for (Map.Entry<ResourceLocation, BlatBlockLayer> entry : data.entrySet()) {
-            ResourceLocation id = entry.getKey();
-            BlatBlockLayer bbl = entry.getValue();
-            
-            Set<Integer> uniqueLevels = new HashSet<>();
-            bbl.getEntities().forEach(entityEntry -> uniqueLevels.add(entityEntry.level()));
-            
-            for (Integer level : uniqueLevels)
-                if (!bbl.getEntities(level).isEmpty())
-                    recipesE.add(new BBLEntitiesWrapper(id, level));
-        }
         
         registration.addRecipes(BBLBlocksCategory.TYPE, recipesB);
         registration.addRecipes(BBLEntitiesCategory.TYPE, recipesE);

@@ -130,8 +130,11 @@ public class BlatBlockScreen extends Screen {
         for(int i=0; i<entity.getSorted().size(); i++){
             ResourceLocation blockLevel = entity.getSorted().get(i);
             int s = font.width(getBBLevel(blockLevel).getTitle())+2;
+            Color color = getBBLevel(blockLevel).getTitleColor();
+            gui.setColor(color.getRed()/255f, color.getGreen()/255f, color.getBlue()/255f, 1);
             gui.blitNineSlicedSized(b, (int) (x-page), topPos+133, s, 16, 6, 32, 16, 0, blockLevel.equals(entity.getCurrentBBLevel()) ? 16 : 0, 32, 32);
-            gui.drawString(font, getBBLevel(blockLevel).getTitle(), (int) (x+1-page), topPos+133+2, getBBLevel(blockLevel).getTitleColor().getRGB());
+            gui.drawString(font, getBBLevel(blockLevel).getTitle(), (int) (x+1-page), topPos+133+2, (blockLevel.equals(entity.getCurrentBBLevel()) ? Color.WHITE : Color.GRAY).getRGB());
+            gui.setColor(1, 1, 1, 1);
             x+=s+2;
         }
         gui.disableScissor();

@@ -30,9 +30,9 @@ import java.awt.*;
 public class BlatBlock {
     public static final String MOD_ID = "blatblock";
     public static final String MOD_NAME = "BlatBlock";
-    public static final String MOD_VERSION = "0.2";
+    // TODO AutoGenerators
     public static final Logger LOGGER = LoggerFactory.getLogger(MOD_NAME);
-    public static final boolean DEBUG_MODE = true;
+    public static final String MOD_VERSION = "0.3";
     
     public BlatBlock() {
         IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();

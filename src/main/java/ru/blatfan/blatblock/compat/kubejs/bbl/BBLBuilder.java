@@ -1,6 +1,6 @@
 package ru.blatfan.blatblock.compat.kubejs.bbl;
 
-import com.google.gson.JsonElement;
+import dev.latvian.mods.rhino.util.HideFromJS;
 import lombok.Getter;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
@@ -38,7 +38,20 @@ public class BBLBuilder {
         this.bg = null;
         this.sort = 0;
     }
+    public BBLBuilder(BlatBlockLayer layer, ResourceLocation id) {
+        this.id = id;
+        this.displayName = layer.getTitle();
+        this.titleColor = layer.getTitleColor();
+        this.blockCost = layer.getBlockCost();
+        this.blocks = layer.getBlocks();
+        this.entities = layer.getEntities();
+        this.blockcalc = layer.getBlockcalc();
+        this.texture = layer.getTexture();
+        this.bg = layer.getBg();
+        this.sort = layer.getSort();
+    }
     
+    @HideFromJS
     public BlatBlockLayer create() {
         return new BlatBlockLayer(
             this.displayName,
@@ -54,7 +67,7 @@ public class BBLBuilder {
     }
     
     public void register(){
-        BlatBlockManager.add(this.id, create());
+        BlatBlockManager.jsLayers.add(()-> this);
     }
     
     public BBLBuilder title(String title) {
