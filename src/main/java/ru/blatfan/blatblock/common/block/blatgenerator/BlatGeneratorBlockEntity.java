@@ -11,6 +11,7 @@ import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
@@ -18,8 +19,9 @@ import ru.blatfan.blatapi.fluffy_fur.common.block.entity.BlockEntityBase;
 import ru.blatfan.blatapi.utils.Text;
 import ru.blatfan.blatblock.BlatBlock;
 import ru.blatfan.blatblock.common.BBRegistry;
+import ru.blatfan.blatblock.common.block.autogenerator.AutoGeneratorBlockEntity;
 import ru.blatfan.blatblock.common.data.BlatBlockLayer;
-import ru.blatfan.blatblock.common.data.BlatBlockManager;
+import ru.blatfan.blatblock.common.data.BBLayerManager;
 
 import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -27,7 +29,7 @@ import java.util.stream.Collectors;
 
 public class BlatGeneratorBlockEntity extends BlockEntityBase {
     @Getter@Setter
-    private ResourceLocation currentBBLevel = BlatBlock.loc("null");
+    private ResourceLocation currentLayer = BlatBlock.loc("null");
     @Getter
     private final Map<ResourceLocation, Integer> minedBlocks = new HashMap<>();
     
@@ -40,9 +42,9 @@ public class BlatGeneratorBlockEntity extends BlockEntityBase {
     
     public void tick(Level level, BlockPos pos) {
         tickCounter++;
-        if(currentBBLevel.getPath().equals("null")) {
-            currentBBLevel = BlatBlockManager.getBaseId();
-            setMinedBlock(currentBBLevel, 1);
+        if(currentLayer.getPath().equals("null")) {
+            currentLayer = BBLayerManager.getBaseId();
+            setMinedBlock(currentLayer, 1);
         }
         
         if (level.isClientSide) {
@@ -53,14 +55,14 @@ public class BlatGeneratorBlockEntity extends BlockEntityBase {
             if (level.getBlockState(pos.above()).isAir() && getMinedBlock()>0) {
                 Player player = level.getNearestPlayer(pos.getX(), pos.getY(), pos.getZ(), 5, false);
                 addMinedBlock(1);
-                BlatBlockLayer lvlData = BlatBlockManager.get(this.currentBBLevel);
+                BlatBlockLayer lvlData = BBLayerManager.get(this.currentLayer);
                 if(player!=null && player.blockPosition().distSqr(Vec3i.ZERO) <= 2)
                     player.setDeltaMovement(new Vec3(0, 1, 0));
                 if (lvlData != null) {
                     lvlData.rand(player, level, pos.above(), random, getCurrentLevel());
                 } else {
-                    BlatBlock.LOGGER.warn("No BlatBlockLayer data for {}", this.currentBBLevel);
-                    this.currentBBLevel=BlatBlockManager.getBaseId();
+                    BlatBlock.LOGGER.warn("No BlatBlockLayer data for {}", this.currentLayer);
+                    this.currentLayer = BBLayerManager.getBaseId();
                 }
                 setChanged();
             }
@@ -70,7 +72,7 @@ public class BlatGeneratorBlockEntity extends BlockEntityBase {
     @Override
     protected void saveAdditional(CompoundTag tag) {
         super.saveAdditional(tag);
-        tag.putString("block_level", currentBBLevel.toString());
+        tag.putString("block_level", currentLayer.toString());
         
         CompoundTag minedTag = new CompoundTag();
         for (Map.Entry<ResourceLocation, Integer> entry : minedBlocks.entrySet()) {
@@ -86,16 +88,16 @@ public class BlatGeneratorBlockEntity extends BlockEntityBase {
             String lvlStr = tag.getString("block_level");
             if (lvlStr.isEmpty()) {
                 BlatBlock.LOGGER.warn("Empty block_level in NBT at {}", getBlockPos());
-                currentBBLevel = BlatBlock.loc("null");
+                currentLayer = BlatBlock.loc("null");
             } else {
                 ResourceLocation parsed = ResourceLocation.tryParse(lvlStr);
-                currentBBLevel = (parsed != null) ? parsed : BlatBlock.loc("null");
+                currentLayer = (parsed != null) ? parsed : BlatBlock.loc("null");
             }
             
             minedBlocks.clear();
             if (tag.contains("mined_block", CompoundTag.TAG_COMPOUND)) {
                 CompoundTag minedTag = tag.getCompound("mined_block");
-                for (ResourceLocation id : BlatBlockManager.getAvailableIds()) {
+                for (ResourceLocation id : BBLayerManager.getAvailableIds()) {
                     int count = minedTag.getInt(id.toString());
                     minedBlocks.put(id, Math.max(0, count));
                 }
@@ -108,15 +110,15 @@ public class BlatGeneratorBlockEntity extends BlockEntityBase {
     
     private void resetToDefaults() {
         minedBlocks.clear();
-        currentBBLevel = BlatBlockManager.getBaseId();
+        currentLayer = BBLayerManager.getBaseId();
     }
     
     public List<Component> getRenderText() {
         List<Component> list = new ArrayList<>();
-        BlatBlockLayer bbl = BlatBlockManager.NULL_BBL;
+        BlatBlockLayer bbl = BBLayerManager.NULL_BBL;
         
         try {
-            bbl = BlatBlockManager.get(currentBBLevel);
+            bbl = BBLayerManager.get(currentLayer);
         } catch (Exception ignored) { }
         
         int currentLevel = getCurrentLevel();
@@ -161,18 +163,18 @@ public class BlatGeneratorBlockEntity extends BlockEntityBase {
     public List<ResourceLocation> getSorted() {
         return minedBlocks.keySet().stream()
             .sorted(Comparator.comparingInt(id -> {
-                BlatBlockLayer level = BlatBlockManager.get(id);
+                BlatBlockLayer level = BBLayerManager.get(id);
                 return level != null ? level.getSort() : Integer.MAX_VALUE;
             }))
             .collect(Collectors.toList());
     }
     
     public int getLevelBlocks() {
-        return getLevelBlocks(currentBBLevel);
+        return getLevelBlocks(currentLayer);
     }
     
     public int getLevelBlocks(ResourceLocation id) {
-        BlatBlockLayer lvlData = BlatBlockManager.get(id);
+        BlatBlockLayer lvlData = BBLayerManager.get(id);
         if (lvlData == null) {
             BlatBlock.LOGGER.warn("No BlatBlockLayer for {} in getBlockLevel()", id);
             return 0;
@@ -181,11 +183,11 @@ public class BlatGeneratorBlockEntity extends BlockEntityBase {
     }
     
     public int getCurrentLevel() {
-        return getCurrentLevel(currentBBLevel);
+        return getCurrentLevel(currentLayer);
     }
     
     public int getCurrentLevel(ResourceLocation id) {
-        BlatBlockLayer lvlData = BlatBlockManager.get(id);
+        BlatBlockLayer lvlData = BBLayerManager.get(id);
         if (lvlData == null) {
             BlatBlock.LOGGER.warn("No BlatBlockLayer for {} in getCurrentLevel()", id);
             return 0;
@@ -204,8 +206,20 @@ public class BlatGeneratorBlockEntity extends BlockEntityBase {
         return level;
     }
     
+    @Override
+    public void setChanged() {
+        super.setChanged();
+        List<BlockEntity> entities = new ArrayList<>();
+        if(level==null) return;
+        entities.add(level.getBlockEntity(getBlockPos().offset(1, 0, 0)));
+        entities.add(level.getBlockEntity(getBlockPos().offset(-1, 0, 0)));
+        entities.add(level.getBlockEntity(getBlockPos().offset(0, 0, 1)));
+        entities.add(level.getBlockEntity(getBlockPos().offset(0, 0, -1)));
+        for(BlockEntity entity : entities) if(entity instanceof AutoGeneratorBlockEntity) entity.setChanged();
+    }
+    
     public int getMinedBlock() {
-        return getMinedBlock(currentBBLevel);
+        return getMinedBlock(currentLayer);
     }
     
     public int getAllMinedBlock() {
@@ -215,11 +229,11 @@ public class BlatGeneratorBlockEntity extends BlockEntityBase {
     }
     
     public void setMinedBlock(int count) {
-        setMinedBlock(currentBBLevel, count);
+        setMinedBlock(currentLayer, count);
     }
     
     public void addMinedBlock(int delta) {
-        addMinedBlock(currentBBLevel, delta);
+        addMinedBlock(currentLayer, delta);
     }
     
     public int getMinedBlock(ResourceLocation id) {

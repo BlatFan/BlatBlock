@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " D ",
+    "E0E",
+    " D "
+  ],
+  "key": {
+    "D": { "item": "minecraft:diamond" },
+    "E": { "item": "minecraft:ender_pearl" },
+    "0": { "item": "blatblock:basic_entity_generator_upgrade" }
+  },
+  "result": {
+    "item": "blatblock:improved_entity_generator_upgrade"
+  }
+}

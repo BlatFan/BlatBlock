@@ -1,0 +1,28 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "DNE",
+    "SAS",
+    "END"
+  ],
+  "key": {
+    "D": {
+      "item": "minecraft:redstone_block"
+    },
+    "N": {
+      "item": "minecraft:netherite_ingot"
+    },
+    "S": {
+      "item": "minecraft:nether_star"
+    },
+    "A": {
+      "item": "blatblock:improved_auto_generator"
+    },
+    "E": {
+      "item": "minecraft:netherite_block"
+    }
+  },
+  "result": {
+    "item": "blatblock:perfect_auto_generator"
+  }
+}

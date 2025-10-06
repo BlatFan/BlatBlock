@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " D ",
+    "C0C",
+    " D "
+  ],
+  "key": {
+    "D": { "item": "minecraft:diamond" },
+    "C": { "item": "minecraft:emerald" },
+    "0": { "item": "blatblock:basic_fortune_generator_upgrade" }
+  },
+  "result": {
+    "item": "blatblock:improved_fortune_generator_upgrade"
+  }
+}

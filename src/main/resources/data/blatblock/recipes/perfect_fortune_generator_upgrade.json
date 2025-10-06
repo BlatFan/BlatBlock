@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " N ",
+    "C0C",
+    " N "
+  ],
+  "key": {
+    "N": { "item": "minecraft:netherite_ingot" },
+    "C": { "item": "minecraft:emerald_block" },
+    "0": { "item": "blatblock:improved_fortune_generator_upgrade" }
+  },
+  "result": {
+    "item": "blatblock:perfect_fortune_generator_upgrade"
+  }
+}

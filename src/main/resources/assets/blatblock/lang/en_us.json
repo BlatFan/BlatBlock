@@ -5,11 +5,28 @@
   "blatblock.blatblock.nether": "Nether",
   "blatblock.blatblock.end": "End",
   
+  "biome.blatblock.empty_overworld": "Empty Overworld",
+  "biome.blatblock.empty_nether": "Empty Nether",
+  
   "block.blatblock.blat_generator": "Generator",
+  "block.blatblock.basic_auto_generator": "Basic Auto Generator",
+  "block.blatblock.improved_auto_generator": "Improved Auto Generator",
+  "block.blatblock.perfect_auto_generator": "Perfect Auto Generator",
   "item.blatblock.entity_ring": "Entity Ring",
   "item.blatblock.tag_ring": "Tag Ring",
   "item.blatblock.drop_ring": "Drop Ring",
   "item.blatblock.liquid_ring": "Liquid Ring",
+  
+  "item.blatblock.basic_tag_generator_upgrade": "Tag Generator Upgrade",
+  "item.blatblock.basic_speed_generator_upgrade": "Basic Speed Generator Upgrade",
+  "item.blatblock.improved_speed_generator_upgrade": "Improved Speed Generator Upgrade",
+  "item.blatblock.perfect_speed_generator_upgrade": "Perfect Speed Generator Upgrade",
+  "item.blatblock.basic_fortune_generator_upgrade": "Basic Fortune Generator Upgrade",
+  "item.blatblock.improved_fortune_generator_upgrade": "Improved Fortune Generator Upgrade",
+  "item.blatblock.perfect_fortune_generator_upgrade": "Perfect Fortune Generator Upgrade",
+  "item.blatblock.basic_entity_generator_upgrade": "Basic Entity Generator Upgrade",
+  "item.blatblock.improved_entity_generator_upgrade": "Improved Entity Generator Upgrade",
+  "item.blatblock.perfect_entity_generator_upgrade": "Perfect Entity Generator Upgrade",
   
   "item.blatblock.wooden_multitool": "Wooden Multitool",
   "item.blatblock.stone_multitool": "Stone Multitool",

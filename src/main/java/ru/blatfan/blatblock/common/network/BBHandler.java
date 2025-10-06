@@ -17,6 +17,7 @@ public class BBHandler extends PacketHandler {
     public static void init() {
         int id = 0;
         BlatGeneratorPacket.register(HANDLER, id++);
+        BBParticlePacket.register(HANDLER, id++);
     }
     
     public static SimpleChannel getHandler() {

@@ -9,7 +9,7 @@ import net.minecraftforge.network.NetworkEvent;
 import net.minecraftforge.network.simple.SimpleChannel;
 import ru.blatfan.blatblock.BlatBlock;
 import ru.blatfan.blatblock.common.block.blatgenerator.BlatGeneratorBlockEntity;
-import ru.blatfan.blatblock.common.data.BlatBlockManager;
+import ru.blatfan.blatblock.common.data.BBLayerManager;
 
 import java.util.function.Supplier;
 
@@ -46,9 +46,9 @@ public class BlatGeneratorPacket {
                 try {
                     Level level = context.get().getSender().level();
                     if (level.getBlockEntity(new BlockPos(x, y, z)) instanceof BlatGeneratorBlockEntity generator && !level.isClientSide) {
-                        if(generator.getAllMinedBlock()<BlatBlockManager.get(bbl).getBlockCost()) return;
+                        if(generator.getAllMinedBlock()< BBLayerManager.get(bbl).getBlockCost()) return;
                         if (type == Type.BUY) generator.setMinedBlock(bbl, 1);
-                        generator.setCurrentBBLevel(bbl);
+                        generator.setCurrentLayer(bbl);
                         generator.setChanged();
                     }
                 } catch (Exception e) {

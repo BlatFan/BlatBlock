@@ -20,7 +20,7 @@ import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Supplier;
 
-public class BlatBlockManager extends SimpleJsonResourceReloadListener {
+public class BBLayerManager extends SimpleJsonResourceReloadListener {
     public static final BlatBlockLayer NULL_BBL =
         new BlatBlockLayer(Component.literal("NULL"), Color.RED, Integer.MAX_VALUE,
             new ArrayList<>(), new ArrayList<>(), "0",
@@ -37,7 +37,7 @@ public class BlatBlockManager extends SimpleJsonResourceReloadListener {
     
     private static final Gson GSON = new Gson();
     
-    public BlatBlockManager() {
+    public BBLayerManager() {
         super(GSON, "blatblock");
     }
     
@@ -45,7 +45,7 @@ public class BlatBlockManager extends SimpleJsonResourceReloadListener {
     protected void apply(Map<ResourceLocation, JsonElement> jsonLayers, ResourceManager resourceManager, ProfilerFiller profiler) {
         LAYERS.clear();
         ResourceLocation newBase = null;
-        if(ModList.get().isLoaded("kubejs")) BBKubeJSPlugin.post();
+        if(ModList.get().isLoaded("kubejs")) BBKubeJSPlugin.postBBL();
         
         int loaded = 0, errors = 0;
         for (var kv : jsonLayers.entrySet()) {

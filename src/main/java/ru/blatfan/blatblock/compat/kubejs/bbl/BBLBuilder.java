@@ -7,7 +7,7 @@ import net.minecraft.resources.ResourceLocation;
 import ru.blatfan.blatapi.utils.ColorHelper;
 import ru.blatfan.blatblock.BlatBlock;
 import ru.blatfan.blatblock.common.data.BlatBlockLayer;
-import ru.blatfan.blatblock.common.data.BlatBlockManager;
+import ru.blatfan.blatblock.common.data.BBLayerManager;
 
 import java.awt.*;
 import java.util.*;
@@ -67,7 +67,7 @@ public class BBLBuilder {
     }
     
     public void register(){
-        BlatBlockManager.jsLayers.add(()-> this);
+        BBLayerManager.jsLayers.add(()-> this);
     }
     
     public BBLBuilder title(String title) {

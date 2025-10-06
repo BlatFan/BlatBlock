@@ -1,0 +1,28 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "GHG",
+    "BAB",
+    "GEG"
+  ],
+  "key": {
+    "G": {
+      "item": "minecraft:diamond_block"
+    },
+    "H": {
+      "item": "minecraft:hopper"
+    },
+    "B": {
+      "item": "minecraft:redstone_block"
+    },
+    "A": {
+      "item": "blatblock:basic_auto_generator"
+    },
+    "E": {
+      "item": "minecraft:ender_pearl"
+    }
+  },
+  "result": {
+    "item": "blatblock:improved_auto_generator"
+  }
+}

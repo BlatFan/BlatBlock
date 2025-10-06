@@ -1,15 +1,32 @@
-{
+{  
   "blatblock.blatblock.start": "Начало",
   "blatblock.blatblock.plants": "Растения",
   "blatblock.blatblock.cave": "Пещера",
   "blatblock.blatblock.nether": "Нижний мир",
   "blatblock.blatblock.end": "Край",
   
+  "biome.blatblock.empty_overworld": "Пустой верхний мир",
+  "biome.blatblock.empty_nether": "Постой нижний мир",
+  
   "block.blatblock.blat_generator": "Генератор",
+  "block.blatblock.basic_auto_generator": "Базовый авто-генератор",
+  "block.blatblock.improved_auto_generator": "Улучшенный авто-генератор",
+  "block.blatblock.perfect_auto_generator": "Совершенный авто-генератор",
   "item.blatblock.entity_ring": "Кольцо существ",
   "item.blatblock.tag_ring": "Кольцо тега",
   "item.blatblock.drop_ring": "Кольцо дропа",
   "item.blatblock.liquid_ring": "Кольцо жидкости",
+  
+  "item.blatblock.basic_tag_generator_upgrade": "Улучшение генератора: метка",
+  "item.blatblock.basic_speed_generator_upgrade": "Улучшение генератора: базовая скорость",
+  "item.blatblock.improved_speed_generator_upgrade": "Улучшение генератора: улучшенная скорость",
+  "item.blatblock.perfect_speed_generator_upgrade": "Улучшение генератора: совершенная скорость",
+  "item.blatblock.basic_fortune_generator_upgrade": "Улучшение генератора: базовая удача",
+  "item.blatblock.improved_fortune_generator_upgrade": "Улучшение генератора: улучшенная удача",
+  "item.blatblock.perfect_fortune_generator_upgrade": "Улучшение генератора: совершенная удача",
+  "item.blatblock.basic_entity_generator_upgrade": "Улучшение генератора: базовые мобы",
+  "item.blatblock.improved_entity_generator_upgrade": "Улучшение генератора: улучшенные мобы",
+  "item.blatblock.perfect_entity_generator_upgrade": "Улучшение генератора: совершенные мобы",
   
   "item.blatblock.wooden_multitool": "Деревянный мультиинструмент",
   "item.blatblock.stone_multitool": "Каменный мультиинструмент",
@@ -32,5 +49,8 @@
   
   "panorama.blatblock": "OneBlock",
   
-  "generator.blatblock.empty_generator": "BlatBlock"
+  "generator.blatblock.empty_generator": "BlatBlock",
+  
+  "jei.blatblock.blocks": "Блоки",
+  "jei.blatblock.entities": "Мобы"
 }

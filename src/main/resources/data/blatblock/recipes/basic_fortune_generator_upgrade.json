@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " I ",
+    "CRC",
+    " I "
+  ],
+  "key": {
+    "I": { "item": "minecraft:iron_ingot" },
+    "C": { "item": "minecraft:coal" },
+    "R": { "item": "blatblock:drop_ring" }
+  },
+  "result": {
+    "item": "blatblock:basic_fortune_generator_upgrade"
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " I ",
+    "LRL",
+    " I "
+  ],
+  "key": {
+    "I": { "item": "minecraft:iron_ingot" },
+    "L": { "item": "minecraft:lapis_lazuli" },
+    "R": { "item": "blatblock:tag_ring" }
+  },
+  "result": {
+    "item": "blatblock:basic_tag_generator_upgrade"
+  }
+}

@@ -6,7 +6,7 @@ import mezz.jei.api.recipe.category.extensions.IRecipeCategoryExtension;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.resources.ResourceLocation;
 import ru.blatfan.blatblock.common.data.BlatBlockLayer;
-import ru.blatfan.blatblock.common.data.BlatBlockManager;
+import ru.blatfan.blatblock.common.data.BBLayerManager;
 
 @Getter
 public abstract class BBLRecipe implements IRecipeCategoryExtension, IRecipeSlotTooltipCallback {
@@ -19,7 +19,7 @@ public abstract class BBLRecipe implements IRecipeCategoryExtension, IRecipeSlot
     }
     
     public BlatBlockLayer get(){
-        return BlatBlockManager.get(bbl);
+        return BBLayerManager.get(bbl);
     }
     
     public void drawBg(GuiGraphics gui){

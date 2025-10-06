@@ -19,7 +19,7 @@ public class BlatGeneratorRenderer implements BlockEntityRenderer<BlatGeneratorB
     public BlatGeneratorRenderer(BlockEntityRendererProvider.Context pContext){}
     @Override
     public void render(BlatGeneratorBlockEntity entity, float partialTick, PoseStack pose, MultiBufferSource buffer, int packedLight, int packedOverlay) {
-        if (entity == null || pose == null || buffer == null) return;
+        if (entity == null || pose == null || buffer == null || !BlatBlock.ConfigClient.GENERATOR_HOLOGRAM.get()) return;
         List<Component> renderTexts = entity.getRenderText();
         if (renderTexts == null || renderTexts.isEmpty()) return;
         Font font = Minecraft.getInstance().font;

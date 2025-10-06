@@ -26,7 +26,7 @@ import ru.blatfan.blatapi.utils.*;
 import ru.blatfan.blatblock.BlatBlock;
 import ru.blatfan.blatblock.common.block.blatgenerator.BlatGeneratorBlockEntity;
 import ru.blatfan.blatblock.common.data.BlatBlockLayer;
-import ru.blatfan.blatblock.common.data.BlatBlockManager;
+import ru.blatfan.blatblock.common.data.BBLayerManager;
 import ru.blatfan.blatblock.common.network.BBHandler;
 import ru.blatfan.blatblock.common.network.BlatGeneratorPacket;
 
@@ -82,13 +82,13 @@ public class BlatBlockScreen extends Screen {
     }
     
     private BlatBlockLayer getBBLevel(ResourceLocation id) {
-        BlatBlockLayer level = BlatBlockManager.get(id);
-        return level != null ? level : BlatBlockManager.NULL_BBL;
+        BlatBlockLayer level = BBLayerManager.get(id);
+        return level != null ? level : BBLayerManager.NULL_BBL;
     }
     
     @Override
     public void render(GuiGraphics gui, int mX, int mY, float partialTick) {
-        if(current==null) current=entity.getCurrentBBLevel();
+        if(current==null) current=entity.getCurrentLayer();
         pageMax = 0;
         for(int i=0; i<entity.getMinedBlocks().size(); i++){
             ResourceLocation blockLevel = entity.getMinedBlocks().entrySet().stream().toList().get(i).getKey();
@@ -111,7 +111,7 @@ public class BlatBlockScreen extends Screen {
     }
     private void renderSetOrBuy(GuiGraphics gui, int mX, int mY, float partialTick) {
         ResourceLocation t = BlatBlock.loc("textures/gui/tooltips.png");
-        if(entity.getCurrentBBLevel().equals(current)) return;
+        if(entity.getCurrentLayer().equals(current)) return;
         Component text = entity.getMinedBlock(current)>0 ? Component.translatable("tooltip.blatblock.set") : Component.translatable("tooltip.blatblock.buy");
         gui.blitNineSlicedSized(t, leftPos+130-font.width(text)/2, topPos+150, font.width(text)+4, 16, 11, 33, 33, 0, 0,  33, 33);
         if(!canChange(current)) {
@@ -132,8 +132,8 @@ public class BlatBlockScreen extends Screen {
             int s = font.width(getBBLevel(blockLevel).getTitle())+2;
             Color color = getBBLevel(blockLevel).getTitleColor();
             gui.setColor(color.getRed()/255f, color.getGreen()/255f, color.getBlue()/255f, 1);
-            gui.blitNineSlicedSized(b, (int) (x-page), topPos+133, s, 16, 6, 32, 16, 0, blockLevel.equals(entity.getCurrentBBLevel()) ? 16 : 0, 32, 32);
-            gui.drawString(font, getBBLevel(blockLevel).getTitle(), (int) (x+1-page), topPos+133+2, (blockLevel.equals(entity.getCurrentBBLevel()) ? Color.WHITE : Color.GRAY).getRGB());
+            gui.blitNineSlicedSized(b, (int) (x-page), topPos+133, s, 16, 6, 32, 16, 0, blockLevel.equals(entity.getCurrentLayer()) ? 16 : 0, 32, 32);
+            gui.drawString(font, getBBLevel(blockLevel).getTitle(), (int) (x+1-page), topPos+133+2, (blockLevel.equals(entity.getCurrentLayer()) ? Color.WHITE : Color.GRAY).getRGB());
             gui.setColor(1, 1, 1, 1);
             x+=s+2;
         }
@@ -415,7 +415,7 @@ public class BlatBlockScreen extends Screen {
             }
             x+=s+2;
         }
-        if(!entity.getCurrentBBLevel().equals(current) && pButton==0 && canChange(current)) {
+        if(!entity.getCurrentLayer().equals(current) && pButton==0 && canChange(current)) {
             boolean isSet = entity.getMinedBlock(current) > 0;
             Component text = isSet ? Component.translatable("tooltip.blatblock.set") : Component.translatable("tooltip.blatblock.buy");
             if(isMouseOver(pMouseX, pMouseY, leftPos+130-font.width(text)/2d, topPos+150, font.width(text)/2d+4, 16)) {
@@ -428,7 +428,7 @@ public class BlatBlockScreen extends Screen {
     }
     
     private boolean canChange(ResourceLocation bbl){
-        return entity.getAllMinedBlock()>=BlatBlockManager.get(bbl).getBlockCost();
+        return entity.getAllMinedBlock()>= BBLayerManager.get(bbl).getBlockCost();
     }
     
     @Override

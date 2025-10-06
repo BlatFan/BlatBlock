@@ -8,7 +8,7 @@ import mezz.jei.api.registration.IRecipeRegistration;
 import net.minecraft.resources.ResourceLocation;
 import ru.blatfan.blatblock.BlatBlock;
 import ru.blatfan.blatblock.common.data.BlatBlockLayer;
-import ru.blatfan.blatblock.common.data.BlatBlockManager;
+import ru.blatfan.blatblock.common.data.BBLayerManager;
 import ru.blatfan.blatblock.compat.jei.blocks.BBLBlocksCategory;
 import ru.blatfan.blatblock.compat.jei.blocks.BBLBlocksWrapper;
 import ru.blatfan.blatblock.compat.jei.entities.BBLEntitiesCategory;
@@ -34,11 +34,11 @@ public class BBJEIPlugin implements IModPlugin {
         List<BBLBlocksWrapper> recipesB = new ArrayList<>();
         List<BBLEntitiesWrapper> recipesE = new ArrayList<>();
 
-        List<ResourceLocation> sortedIds = new ArrayList<>(BlatBlockManager.getData().keySet());
+        List<ResourceLocation> sortedIds = new ArrayList<>(BBLayerManager.getData().keySet());
         sortedIds.sort(Comparator.comparing(ResourceLocation::toString));
         
         for (ResourceLocation id : sortedIds) {
-            BlatBlockLayer layer = BlatBlockManager.get(id);
+            BlatBlockLayer layer = BBLayerManager.get(id);
             
             Set<Integer> blockLevels = new TreeSet<>();
             layer.getBlocks().forEach(entry -> blockLevels.add(entry.level()));

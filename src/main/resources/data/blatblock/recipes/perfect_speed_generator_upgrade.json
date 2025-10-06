@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " N ",
+    "R0R",
+    " N "
+  ],
+  "key": {
+    "N": { "item": "minecraft:netherite_ingot" },
+    "R": { "item": "blatblock:netherite_multitool" },
+    "0": { "item": "blatblock:improved_speed_generator_upgrade" }
+  },
+  "result": {
+    "item": "blatblock:perfect_speed_generator_upgrade"
+  }
+}

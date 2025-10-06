@@ -1,0 +1,7 @@
+{
+  "parent": "item/generated",
+  "textures": {
+    "layer0": "blatblock:item/upgrade/perfect",
+    "layer1": "blatblock:item/upgrade/fortune"
+  }
+}

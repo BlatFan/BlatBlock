@@ -1,0 +1,6 @@
+{
+  "parent": "blatblock:block/auto_generator",
+  "textures": {
+    "main": "blatblock:block/basic_auto_generator"
+  }
+}

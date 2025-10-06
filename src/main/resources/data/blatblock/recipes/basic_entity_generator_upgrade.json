@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " I ",
+    "ERE",
+    " I "
+  ],
+  "key": {
+    "I": { "item": "minecraft:iron_ingot" },
+    "E": { "item": "minecraft:ender_pearl" },
+    "R": { "item": "blatblock:entity_ring" }
+  },
+  "result": {
+    "item": "blatblock:basic_entity_generator_upgrade"
+  }
+}

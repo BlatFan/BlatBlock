@@ -1,0 +1,7 @@
+{
+  "variants": {
+    "": {
+      "model": "blatblock:block/basic_auto_generator"
+    }
+  }
+}

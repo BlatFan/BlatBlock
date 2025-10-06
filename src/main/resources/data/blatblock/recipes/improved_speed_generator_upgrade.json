@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " D ",
+    "R0R",
+    " D "
+  ],
+  "key": {
+    "D": { "item": "minecraft:diamond" },
+    "R": { "item": "blatblock:diamond_multitool" },
+    "0": { "item": "blatblock:basic_speed_generator_upgrade" }
+  },
+  "result": {
+    "item": "blatblock:improved_speed_generator_upgrade"
+  }
+}

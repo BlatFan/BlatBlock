@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " N ",
+    "E0E",
+    " N "
+  ],
+  "key": {
+    "N": { "item": "minecraft:netherite_ingot" },
+    "E": { "item": "minecraft:ender_eye" },
+    "0": { "item": "blatblock:improved_entity_generator_upgrade" }
+  },
+  "result": {
+    "item": "blatblock:perfect_entity_generator_upgrade"
+  }
+}
