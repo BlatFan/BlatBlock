@@ -29,6 +29,7 @@ import net.minecraft.world.level.block.RotatedPillarBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraftforge.common.ToolActions;
+import ru.blatfan.blatblock.mixin.AxeItemAccessor;
 
 import java.util.Optional;
 
@@ -121,7 +122,7 @@ public class MultitoolItem extends DiggerItem {
     }
     
     private static Optional<BlockState> getStripped(BlockState state) {
-        return Optional.ofNullable(AxeItem.STRIPPABLES.get(state.getBlock()))
+        return Optional.ofNullable(AxeItemAccessor.getStrippables().get(state.getBlock()))
             .map(block -> block.defaultBlockState().setValue(RotatedPillarBlock.AXIS,
                 state.getValue(RotatedPillarBlock.AXIS)));
     }

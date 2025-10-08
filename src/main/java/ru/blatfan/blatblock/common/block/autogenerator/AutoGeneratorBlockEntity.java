@@ -25,6 +25,7 @@ import ru.blatfan.blatblock.common.events.GeneratorEvents;
 import ru.blatfan.blatblock.common.item.GeneratorUpgradeItem;
 import ru.blatfan.blatblock.common.network.BBHandler;
 import ru.blatfan.blatblock.common.network.BBParticlePacket;
+import ru.blatfan.blatblock.mixin.LivingEntityAccess;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -122,8 +123,8 @@ public class AutoGeneratorBlockEntity extends BlockISSimpleInventory {
         List<ItemEntity> drops = new ArrayList<>();
         
         entity.captureDrops(drops);
-        entity.dropFromLootTable(damageSource, true);
-        entity.dropCustomDeathLoot(damageSource, random.nextInt((int) entityMod), true);
+        ((LivingEntityAccess)entity).lootTableDrop(damageSource, true);
+        ((LivingEntityAccess)entity).customDrop(damageSource, random.nextInt((int) entityMod), true);
         
         for (ItemEntity itemEntity : entity.captureDrops(null)) {
             ItemStack drop = itemEntity.getItem();
@@ -163,8 +164,6 @@ public class AutoGeneratorBlockEntity extends BlockISSimpleInventory {
             if (entity instanceof BlatGeneratorBlockEntity generator) {
                 cachedBBL = generator.getCurrentLayer();
                 cachedBBLLevel = generator.getCurrentLevel();
-                BlatBlock.LOGGER.debug("Updated BBL data: {} level {}",
-                    cachedBBL != null ? cachedBBL.toString() : "null", cachedBBLLevel);
                 return;
             }
         }

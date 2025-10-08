@@ -10,11 +10,13 @@ import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityTicker;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.properties.NoteBlockInstrument;
+import net.minecraft.world.level.material.MapColor;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraftforge.network.NetworkHooks;
 import org.jetbrains.annotations.Nullable;
@@ -22,10 +24,44 @@ import ru.blatfan.blatapi.fluffy_fur.common.block.BlatEntityBlock;
 
 public class AutoGeneratorBlock extends BlatEntityBlock {
     private final Type type;
-    protected AutoGeneratorBlock(Type type) {
-        super(Properties.copy(Blocks.IRON_BLOCK).noOcclusion(), AutoGeneratorBlockEntity::new);
+    public AutoGeneratorBlock(Type type) {
+        super(createProperties(type), AutoGeneratorBlockEntity::new);
         this.type = type;
     }
+    
+    private static Properties createProperties(Type type) {
+        return Properties.of()
+            .mapColor(getMapColor(type))
+            .instrument(NoteBlockInstrument.IRON_XYLOPHONE)
+            .requiresCorrectToolForDrops()
+            .strength(getHardness(type), getResistance(type))
+            .sound(SoundType.METAL)
+            .noOcclusion();
+    }
+    
+    private static MapColor getMapColor(Type type) {
+        return switch (type) {
+            case BASIC, PERFECT -> MapColor.METAL;
+            case IMPROVED -> MapColor.DIAMOND;
+        };
+    }
+    
+    private static float getHardness(Type type) {
+        return switch (type) {
+            case BASIC -> 5.0F;
+            case IMPROVED -> 7.0F;
+            case PERFECT -> 10.0F;
+        };
+    }
+    
+    private static float getResistance(Type type) {
+        return switch (type) {
+            case BASIC -> 6.0F;
+            case IMPROVED -> 8.0F;
+            case PERFECT -> 12.0F;
+        };
+    }
+    
     public static AutoGeneratorBlock basic(){
         return new AutoGeneratorBlock(Type.BASIC);
     }

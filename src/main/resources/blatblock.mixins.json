@@ -4,8 +4,7 @@
   "package": "ru.blatfan.blatblock.mixin",
   "compatibilityLevel": "JAVA_8",
   "refmap": "blatblock.refmap.json",
-  "mixins": [
-  ],
+  "mixins": ["AxeItemAccessor", "LivingEntityAccess"],
   "client": [
   ],
   "injectors": {

@@ -36,7 +36,7 @@ public class BlatBlock {
     public static final String MOD_ID = "blatblock";
     public static final String MOD_NAME = "BlatBlock";
     public static final Logger LOGGER = LoggerFactory.getLogger(MOD_NAME);
-    public static final String MOD_VERSION = "0.4";
+    public static final String MOD_VERSION = "0.5";
     
     public BlatBlock() {
         IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();
