@@ -13,6 +13,7 @@ import java.awt.*;
 import java.util.*;
 import java.util.List;
 
+@SuppressWarnings({"unused", "UnusedReturnValue"})
 public class BBLBuilder {
     @Getter
     private final ResourceLocation id;
@@ -137,11 +138,7 @@ public class BBLBuilder {
     }
     
     public BBLBuilder entity(String entityId, String chance, int level) {
-        this.entities.add(new BlatBlockLayer.Entry(
-            new ResourceLocation(entityId),
-            chance,
-            level
-        ));
+        this.entities.add(new BlatBlockLayer.Entry(new ResourceLocation(entityId), chance, level));
         return this;
     }
     

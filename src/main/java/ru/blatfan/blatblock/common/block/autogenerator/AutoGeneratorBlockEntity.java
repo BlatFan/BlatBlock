@@ -3,12 +3,13 @@ package ru.blatfan.blatblock.common.block.autogenerator;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.inventory.ContainerData;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.LiquidBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -78,11 +79,11 @@ public class AutoGeneratorBlockEntity extends BlockISSimpleInventory {
         
         if (progress >= progressMax && cachedBBL != null) {
             progress = 0;
-            generateItems(level, pos);
+            generateItems((ServerLevel) level, pos);
         }
     }
     
-    private void generateItems(Level level, BlockPos pos) {
+    private void generateItems(ServerLevel level, BlockPos pos) {
         BlatBlockLayer layer = BBLayerManager.get(cachedBBL);
         if (layer == BBLayerManager.NULL_BBL) return;
         
@@ -109,28 +110,15 @@ public class AutoGeneratorBlockEntity extends BlockISSimpleInventory {
         sendParticlePacket(level, pos, drop);
     }
     
-    private void generateEntityDrops(Level level, BlockPos pos, BlatBlockLayer layer, Random random) {
+    private void generateEntityDrops(ServerLevel level, BlockPos pos, BlatBlockLayer layer, Random random) {
         float entityMod = getCachedModifier(GeneratorUpgradeItem.Type.ENTITY);
         if (entityMod <= 1) return;
         
         EntityType<?> entityType = layer.getRandEntity(random, cachedBBLLevel);
         if (entityType == null) return;
         
-        LivingEntity entity = (LivingEntity) entityType.create(level);
-        if (entity == null) return;
-        
-        DamageSource damageSource = level.damageSources().generic();
-        List<ItemEntity> drops = new ArrayList<>();
-        
-        entity.captureDrops(drops);
-        ((LivingEntityAccess)entity).lootTableDrop(damageSource, true);
-        ((LivingEntityAccess)entity).customDrop(damageSource, random.nextInt((int) entityMod), true);
-        
-        for (ItemEntity itemEntity : entity.captureDrops(null)) {
-            ItemStack drop = itemEntity.getItem();
-            if (addItemToStorage(drop))
-                sendParticlePacket(level, pos, drop);
-        }
+        for (ItemStack drop : getEntityDrop(level, entityType, (int) entityMod))
+            if (addItemToStorage(drop)) sendParticlePacket(level, pos, drop);
     }
     
     private boolean addItemToStorage(ItemStack stack) {
@@ -138,10 +126,14 @@ public class AutoGeneratorBlockEntity extends BlockISSimpleInventory {
         if (slot == -1) return false;
         
         ItemStack existing = getItemHandler().getStackInSlot(slot);
-        ItemStack combined = ItemHelper.withSize(stack,
-            stack.getCount() + existing.getCount(), false);
+        int com = stack.getCount() + existing.getCount();
+        ItemStack combined = ItemHelper.withSize(stack, Math.min(com, stackMaxCount(stack)), false);
         getItemHandler().setStackInSlot(slot, combined);
         return true;
+    }
+    
+    public int stackMaxCount(ItemStack stack){
+        return (int) (stack.getMaxStackSize()*getCachedModifier(GeneratorUpgradeItem.Type.STACK));
     }
     
     private void sendParticlePacket(Level level, BlockPos pos, ItemStack stack) {
@@ -172,18 +164,17 @@ public class AutoGeneratorBlockEntity extends BlockISSimpleInventory {
     public float getCachedModifier(GeneratorUpgradeItem.Type type) {
         if (!modifiersCached)
             updateModifierCache();
-        return cachedModifiers[type.ordinal()];
+        return cachedModifiers[type.ordinal()]==0 ? 1 : cachedModifiers[type.ordinal()];
     }
     
     private void updateModifierCache() {
-        Arrays.fill(cachedModifiers, 1.0f);
+        Arrays.fill(cachedModifiers, 0);
         
         for (ItemStack stack : getUpgrades())
             if (stack.getItem() instanceof GeneratorUpgradeItem upgrade) {
                 int index = upgrade.getType().ordinal();
                 cachedModifiers[index] += upgrade.getQuality();
             }
-        
         modifiersCached = true;
     }
     
@@ -217,8 +208,7 @@ public class AutoGeneratorBlockEntity extends BlockISSimpleInventory {
     public int hasFreeSlots(ItemStack stack) {
         for (int i = 0; i < STORAGE_SLOTS; i++) {
             ItemStack slot = getItemHandler().getStackInSlot(i);
-            if (slot.isEmpty() ||
-                (ItemHelper.areStacksEqual(slot, stack) && slot.getCount() + stack.getCount() <= slot.getMaxStackSize()))
+            if (slot.isEmpty() || (ItemHelper.areStacksEqual(slot, stack) && slot.getCount() + stack.getCount() <= stackMaxCount(stack)))
                 return i;
         }
         return -1;
@@ -278,5 +268,20 @@ public class AutoGeneratorBlockEntity extends BlockISSimpleInventory {
     
     public ContainerData getData() {
         return dataAccess;
+    }
+    
+    public static List<ItemStack> getEntityDrop(ServerLevel level, EntityType<?> entityType, int looting) {
+        if(!(entityType.create(level) instanceof LivingEntity living)) return new ArrayList<>();
+        LivingEntityAccess access = (LivingEntityAccess) living;
+        List<ItemStack> drop = new ArrayList<>();
+        List<ItemEntity> dropEntity = new ArrayList<>();
+        
+        living.captureDrops(dropEntity);
+        access.lootTableDrop(level.damageSources().generic(), true);
+        access.customDrop(level.damageSources().generic(), looting, true);
+        
+        dropEntity = List.copyOf(living.captureDrops(null));
+        dropEntity.forEach(e -> drop.add(e.getItem()));
+        return drop;
     }
 }

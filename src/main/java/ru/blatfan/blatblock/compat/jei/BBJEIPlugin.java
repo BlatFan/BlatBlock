@@ -16,6 +16,7 @@ import ru.blatfan.blatblock.compat.jei.entities.BBLEntitiesWrapper;
 
 import java.util.*;
 
+@SuppressWarnings({"unused", "UnusedReturnValue"})
 @JeiPlugin
 public class BBJEIPlugin implements IModPlugin {
     @Override

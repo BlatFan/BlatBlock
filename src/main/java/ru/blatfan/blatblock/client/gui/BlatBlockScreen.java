@@ -249,15 +249,11 @@ public class BlatBlockScreen extends Screen {
     }
     
     public static ItemStack getItemStack(Block block) {
-        if (block instanceof LiquidBlock) return null;
+        if (block instanceof LiquidBlock lb) return new ItemStack(lb.getFluid().getBucket());
         Item blockItem = BlockItem.BY_BLOCK.get(block);
-        if (blockItem != null && blockItem != Items.AIR) {
-            return new ItemStack(blockItem);
-        }
+        if (blockItem != null && blockItem != Items.AIR) return new ItemStack(blockItem);
         Item asItem = block.asItem();
-        if (asItem != Items.AIR) {
-            return new ItemStack(asItem);
-        }
+        if (asItem != Items.AIR) return new ItemStack(asItem);
         return ItemStack.EMPTY;
     }
     

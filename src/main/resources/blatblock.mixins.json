@@ -5,8 +5,7 @@
   "compatibilityLevel": "JAVA_8",
   "refmap": "blatblock.refmap.json",
   "mixins": ["AxeItemAccessor", "LivingEntityAccess"],
-  "client": [
-  ],
+  "client": ["GuiGraphicsMixin"],
   "injectors": {
     "defaultRequire": 1
   }

@@ -6,6 +6,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import ru.blatfan.blatblock.common.item.GeneratorUpgradeItem;
 
+@SuppressWarnings({"unused", "UnusedReturnValue"})
 public class GeneratorUpgradeBuilder extends ItemBuilder {
     private GeneratorUpgradeItem.Type type;
     private float quality;
@@ -23,7 +24,7 @@ public class GeneratorUpgradeBuilder extends ItemBuilder {
     }
     
     @Info("Sets the item's quality.")
-    public ItemBuilder quality(int v) {
+    public ItemBuilder quality(float v) {
         quality = v;
         return this;
     }

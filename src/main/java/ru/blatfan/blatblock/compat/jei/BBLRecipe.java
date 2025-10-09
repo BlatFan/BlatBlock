@@ -1,10 +1,13 @@
 package ru.blatfan.blatblock.compat.jei;
 
 import lombok.Getter;
+import mezz.jei.api.gui.builder.IRecipeLayoutBuilder;
 import mezz.jei.api.gui.ingredient.IRecipeSlotTooltipCallback;
+import mezz.jei.api.gui.ingredient.IRecipeSlotsView;
 import mezz.jei.api.recipe.category.extensions.IRecipeCategoryExtension;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.resources.ResourceLocation;
+import org.jetbrains.annotations.NotNull;
 import ru.blatfan.blatblock.common.data.BlatBlockLayer;
 import ru.blatfan.blatblock.common.data.BBLayerManager;
 
@@ -28,4 +31,6 @@ public abstract class BBLRecipe implements IRecipeCategoryExtension, IRecipeSlot
             gui.blit(get().getBg(), 0, 66, 129, 66, 0, 0, 129, 66, 129, 66);
         }
     }
+    
+    public abstract void addResultItems(IRecipeLayoutBuilder builder);
 }

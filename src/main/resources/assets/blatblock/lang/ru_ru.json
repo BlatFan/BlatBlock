@@ -18,15 +18,26 @@
   "item.blatblock.liquid_ring": "Кольцо жидкости",
   
   "item.blatblock.basic_tag_generator_upgrade": "Улучшение генератора: метка",
+  
   "item.blatblock.basic_speed_generator_upgrade": "Улучшение генератора: базовая скорость",
   "item.blatblock.improved_speed_generator_upgrade": "Улучшение генератора: улучшенная скорость",
   "item.blatblock.perfect_speed_generator_upgrade": "Улучшение генератора: совершенная скорость",
+  "item.blatblock.creative_speed_generator_upgrade": "Улучшение генератора: креативная скорость",
+  
   "item.blatblock.basic_fortune_generator_upgrade": "Улучшение генератора: базовая удача",
   "item.blatblock.improved_fortune_generator_upgrade": "Улучшение генератора: улучшенная удача",
   "item.blatblock.perfect_fortune_generator_upgrade": "Улучшение генератора: совершенная удача",
-  "item.blatblock.basic_entity_generator_upgrade": "Улучшение генератора: базовые мобы",
-  "item.blatblock.improved_entity_generator_upgrade": "Улучшение генератора: улучшенные мобы",
-  "item.blatblock.perfect_entity_generator_upgrade": "Улучшение генератора: совершенные мобы",
+  "item.blatblock.creative_fortune_generator_upgrade": "Улучшение генератора: креативная удача",
+  
+  "item.blatblock.basic_entity_generator_upgrade": "Улучшение генератора: базовая добыча",
+  "item.blatblock.improved_entity_generator_upgrade": "Улучшение генератора: улучшенная добыча",
+  "item.blatblock.perfect_entity_generator_upgrade": "Улучшение генератора: совершенная добыча",
+  "item.blatblock.creative_entity_generator_upgrade": "Улучшение генератора: креативная добыча",
+  
+  "item.blatblock.basic_stack_generator_upgrade": "Улучшение генератора: базовый размер стака",
+  "item.blatblock.improved_stack_generator_upgrade": "Улучшение генератора: улучшенный размер стака",
+  "item.blatblock.perfect_stack_generator_upgrade": "Улучшение генератора: совершенный размер стака",
+  "item.blatblock.creative_stack_generator_upgrade": "Улучшение генератора: креативный размер стака",
   
   "item.blatblock.wooden_multitool": "Деревянный мультиинструмент",
   "item.blatblock.stone_multitool": "Каменный мультиинструмент",

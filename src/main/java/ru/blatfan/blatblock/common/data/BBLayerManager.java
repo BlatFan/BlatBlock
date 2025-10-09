@@ -23,9 +23,7 @@ import java.util.function.Supplier;
 public class BBLayerManager extends SimpleJsonResourceReloadListener {
     public static final BlatBlockLayer NULL_BBL =
         new BlatBlockLayer(Component.literal("NULL"), Color.RED, Integer.MAX_VALUE,
-            new ArrayList<>(), new ArrayList<>(), "0",
-            BlatBlock.loc("textures/gui/base.png"),
-            null, 0);
+            new ArrayList<>(), new ArrayList<>(), "0", BlatBlock.loc("textures/gui/base.png"), null, 0);
     
     private static final Map<ResourceLocation, BlatBlockLayer> LAYERS = new ConcurrentHashMap<>();
     public static final List<Supplier<BBLBuilder>> jsLayers = new ArrayList<>();

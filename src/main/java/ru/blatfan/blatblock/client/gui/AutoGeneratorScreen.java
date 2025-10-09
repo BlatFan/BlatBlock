@@ -9,9 +9,7 @@ import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.item.ItemStack;
 import ru.blatfan.blatapi.common.guide_book.pages.TextPage;
 import ru.blatfan.blatapi.utils.GuiUtil;
-import ru.blatfan.blatapi.utils.Text;
 import ru.blatfan.blatblock.BlatBlock;
-import ru.blatfan.blatblock.common.block.autogenerator.AutoGeneratorBlock;
 import ru.blatfan.blatblock.common.block.autogenerator.AutoGeneratorMenu;
 
 import java.awt.*;

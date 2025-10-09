@@ -1,7 +1,9 @@
 package ru.blatfan.blatblock.compat.jei.blocks;
 
 import com.mojang.blaze3d.systems.RenderSystem;
+import mezz.jei.api.gui.builder.IRecipeLayoutBuilder;
 import mezz.jei.api.gui.ingredient.IRecipeSlotView;
+import mezz.jei.api.recipe.RecipeIngredientRole;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -28,6 +30,19 @@ import static ru.blatfan.blatblock.client.gui.BlatBlockScreen.isMouseOver;
 public class BBLBlocksWrapper extends BBLRecipe {
     public BBLBlocksWrapper(ResourceLocation bbl, int level) {
         super(bbl, level);
+    }
+    
+    @Override
+    public void addResultItems(IRecipeLayoutBuilder builder) {
+        for(Block block : get().getBlocks(getLevel())) {
+            ItemStack item = getItemStack(block);
+            if(block instanceof LiquidBlock liquidBlock)
+                try {
+                    item = new ItemStack(liquidBlock.getFluid().getBucket());
+                } catch (Exception ignored){}
+            if (item!=null)
+                builder.addSlot(RecipeIngredientRole.OUTPUT, -1000, -1000).addItemStack(item);
+        }
     }
     
     @Override

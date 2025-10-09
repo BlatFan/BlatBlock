@@ -61,6 +61,7 @@ public abstract class BlankJEIRecipeCategory<T extends BBLRecipe> implements IRe
     
     @Override
     public void setRecipe(IRecipeLayoutBuilder builder, T recipe, IFocusGroup focuses) {
-        builder.addSlot(RecipeIngredientRole.RENDER_ONLY, -100, -100).addItemStack(ItemStack.EMPTY);
+        builder.addSlot(RecipeIngredientRole.RENDER_ONLY, -1000, -1000).addItemStack(ItemStack.EMPTY);
+        recipe.addResultItems(builder);
     }
 }

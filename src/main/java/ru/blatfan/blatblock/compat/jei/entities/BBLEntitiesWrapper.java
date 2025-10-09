@@ -1,6 +1,7 @@
 package ru.blatfan.blatblock.compat.jei.entities;
 
 import com.mojang.math.Axis;
+import mezz.jei.api.gui.builder.IRecipeLayoutBuilder;
 import mezz.jei.api.gui.ingredient.IRecipeSlotView;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
@@ -10,7 +11,6 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.level.block.Block;
 import ru.blatfan.blatapi.client.guide_book.GuideClient;
 import ru.blatfan.blatapi.utils.ClientTicks;
 import ru.blatfan.blatapi.utils.GuiUtil;
@@ -30,6 +30,9 @@ public class BBLEntitiesWrapper extends BBLRecipe {
     }
     
     @Override
+    public void addResultItems(IRecipeLayoutBuilder builder) {}
+    
+    @Override
     public void onTooltip(IRecipeSlotView recipeSlotView, List<Component> tooltip) {}
     
     @Override
@@ -42,7 +45,7 @@ public class BBLEntitiesWrapper extends BBLRecipe {
             int blockX = 2 + x * 32;
             int blockY = 11 + y * 48;
             
-            if (isMouseOver(mX, mY, blockX, blockY, 16, 16)) {
+            if (isMouseOver(mX, mY, blockX, blockY, 32, 48)) {
                 List<Component> tooltips = new ArrayList<>();
                 EntityType<?> entityType = levelEntities.get(i);
                 Entity fakeEntity = null;

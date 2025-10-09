@@ -8,15 +8,16 @@ import net.minecraft.world.item.Tier;
 import net.minecraft.world.item.Tiers;
 import ru.blatfan.blatblock.common.item.MultitoolItem;
 
+@SuppressWarnings({"unused", "UnusedReturnValue"})
 public class MultitoolItemBuilder extends ItemBuilder {
-    private int attackDamage;
-    private int attackSpeed;
+    private float attackDamage;
+    private float attackSpeed;
     private Tier tier;
     
     public MultitoolItemBuilder(ResourceLocation i) {
         super(i);
         this.attackDamage = 2;
-        this.attackSpeed = 1;
+        this.attackSpeed = 1.2f;
         this.tier = Tiers.WOOD;
     }
     
@@ -26,12 +27,12 @@ public class MultitoolItemBuilder extends ItemBuilder {
     }
     
     @Info("Sets the item's attack damage.")
-    public ItemBuilder attackDamage(int v) {
+    public ItemBuilder attackDamage(float v) {
         attackDamage = v;
         return this;
     }
     @Info("Sets the item's attack speed.")
-    public ItemBuilder attackSpeed(int v) {
+    public ItemBuilder attackSpeed(float v) {
         attackSpeed = v;
         return this;
     }

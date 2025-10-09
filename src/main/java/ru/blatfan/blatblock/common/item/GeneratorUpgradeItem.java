@@ -16,5 +16,5 @@ public class GeneratorUpgradeItem extends Item {
         this.quality = quality;
     }
     
-    public enum Type { SPEED, FORTUNE, TAG, ENTITY}
+    public enum Type { SPEED, FORTUNE, TAG, ENTITY, STACK}
 }

@@ -18,15 +18,26 @@
   "item.blatblock.liquid_ring": "Liquid Ring",
   
   "item.blatblock.basic_tag_generator_upgrade": "Tag Generator Upgrade",
+  
   "item.blatblock.basic_speed_generator_upgrade": "Basic Speed Generator Upgrade",
   "item.blatblock.improved_speed_generator_upgrade": "Improved Speed Generator Upgrade",
   "item.blatblock.perfect_speed_generator_upgrade": "Perfect Speed Generator Upgrade",
+  "item.blatblock.creative_speed_generator_upgrade": "Creative Speed Generator Upgrade",
+  
   "item.blatblock.basic_fortune_generator_upgrade": "Basic Fortune Generator Upgrade",
   "item.blatblock.improved_fortune_generator_upgrade": "Improved Fortune Generator Upgrade",
   "item.blatblock.perfect_fortune_generator_upgrade": "Perfect Fortune Generator Upgrade",
-  "item.blatblock.basic_entity_generator_upgrade": "Basic Entity Generator Upgrade",
-  "item.blatblock.improved_entity_generator_upgrade": "Improved Entity Generator Upgrade",
-  "item.blatblock.perfect_entity_generator_upgrade": "Perfect Entity Generator Upgrade",
+  "item.blatblock.creative_fortune_generator_upgrade": "Creative Fortune Generator Upgrade",
+  
+  "item.blatblock.basic_entity_generator_upgrade": "Basic Mob Looting Generator Upgrade",
+  "item.blatblock.improved_entity_generator_upgrade": "Improved Mob Looting Generator Upgrade",
+  "item.blatblock.perfect_entity_generator_upgrade": "Perfect Mob Looting Generator Upgrade",
+  "item.blatblock.creative_entity_generator_upgrade": "Creative Mob Looting Generator Upgrade",
+  
+  "item.blatblock.basic_stack_generator_upgrade": "Basic Stack Generator Upgrade",
+  "item.blatblock.improved_stack_generator_upgrade": "Improved Stack Generator Upgrade",
+  "item.blatblock.perfect_stack_generator_upgrade": "Perfect Stack Generator Upgrade",
+  "item.blatblock.creative_stack_generator_upgrade": "Creative Stack Generator Upgrade",
   
   "item.blatblock.wooden_multitool": "Wooden Multitool",
   "item.blatblock.stone_multitool": "Stone Multitool",

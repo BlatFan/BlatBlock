@@ -5,6 +5,7 @@ import net.minecraft.resources.ResourceLocation;
 import oshi.util.tuples.Pair;
 import ru.blatfan.blatblock.common.data.BBLayerManager;
 
+@SuppressWarnings({"unused", "UnusedReturnValue"})
 public class BBLEventJS extends EventJS {
     public BBLBuilder add(ResourceLocation id) {
         return new BBLBuilder(id);

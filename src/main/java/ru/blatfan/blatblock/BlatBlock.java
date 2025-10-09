@@ -36,7 +36,7 @@ public class BlatBlock {
     public static final String MOD_ID = "blatblock";
     public static final String MOD_NAME = "BlatBlock";
     public static final Logger LOGGER = LoggerFactory.getLogger(MOD_NAME);
-    public static final String MOD_VERSION = "0.5";
+    public static final String MOD_VERSION = "0.6";
     
     public BlatBlock() {
         IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();
@@ -76,13 +76,31 @@ public class BlatBlock {
     public static class ConfigClient {
         public static final ForgeConfigSpec SPEC;
         public static final ForgeConfigSpec.BooleanValue GENERATOR_HOLOGRAM;
+        public static final ForgeConfigSpec.BooleanValue ITEM_OVERCOUNT_COLOR;
+        public static final ConfigColor ITEM_COUNT_COLOR;
         
         static {
             ForgeConfigSpec.Builder builder = new ForgeConfigSpec.Builder();
             
             GENERATOR_HOLOGRAM=builder.define("generator_hologram", true);
+            ITEM_OVERCOUNT_COLOR=builder.define("item_overcount_color", true);
+            ITEM_COUNT_COLOR=define(builder, "item_count_color", new Color(206, 92, 255));
             
             SPEC=builder.build();
+        }
+        
+        public static ConfigColor define(ForgeConfigSpec.Builder builder, String id, Color defaultValue){
+            return new ConfigColor(
+                builder.defineInRange(id+".r", defaultValue.getRed(), 0, 255),
+                builder.defineInRange(id+".g", defaultValue.getGreen(), 0, 255),
+                builder.defineInRange(id+".b", defaultValue.getBlue(), 0, 255)
+            );
+        }
+        
+        public record ConfigColor(ForgeConfigSpec.IntValue r, ForgeConfigSpec.IntValue g, ForgeConfigSpec.IntValue b){
+            public Color get(){
+                return new Color(r.get(), g.get(), b.get());
+            }
         }
     }
     
@@ -91,7 +109,7 @@ public class BlatBlock {
         @SubscribeEvent
         public static void onClientSetup(FMLClientSetupEvent event) {
             FluffyFurMod MOD = new FluffyFurMod(MOD_ID, MOD_NAME, MOD_VERSION).setDev("BlatFan")
-                .setItem(new ItemStack(BBRegistry.ITEMS.NETHERITE_MULTITOOL.get())).setNameColor(new Color(142, 95, 239))
+                .setItem(new ItemStack(BBRegistry.ITEMS.DIAMOND_MULTITOOL.get())).setNameColor(new Color(142, 95, 239))
                 .setVersionColor(new Color(65, 36, 138)).setDescription(Component.literal("New generation of OneBlock maps and modpacks"))
                 .addCurseForgeLink("https://www.curseforge.com/minecraft/mc-mods/blatblock")
                 .addModrinthLink("https://modrinth.com/project/blatblock")

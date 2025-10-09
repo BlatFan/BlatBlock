@@ -61,13 +61,23 @@ public class BBRegistry {
         public static final RegistryObject<Item> BASIC_SPEED_GENERATOR_UPGRADE = R.item("basic_speed_generator_upgrade", ()-> new GeneratorUpgradeItem(GeneratorUpgradeItem.Type.SPEED, 1.25f));
         public static final RegistryObject<Item> BASIC_FORTUNE_GENERATOR_UPGRADE = R.item("basic_fortune_generator_upgrade", ()-> new GeneratorUpgradeItem(GeneratorUpgradeItem.Type.FORTUNE, 2f));
         public static final RegistryObject<Item> BASIC_TAG_GENERATOR_UPGRADE = R.item("basic_tag_generator_upgrade", ()-> new GeneratorUpgradeItem(GeneratorUpgradeItem.Type.TAG, 10f));
-        public static final RegistryObject<Item> BASIC_ENTITY_GENERATOR_UPGRADE = R.item("basic_entity_generator_upgrade", ()-> new GeneratorUpgradeItem(GeneratorUpgradeItem.Type.ENTITY, 1));
+        public static final RegistryObject<Item> BASIC_ENTITY_GENERATOR_UPGRADE = R.item("basic_entity_generator_upgrade", ()-> new GeneratorUpgradeItem(GeneratorUpgradeItem.Type.ENTITY, 2));
+        public static final RegistryObject<Item> BASIC_STACK_GENERATOR_UPGRADE = R.item("basic_stack_generator_upgrade", ()-> new GeneratorUpgradeItem(GeneratorUpgradeItem.Type.STACK, 1.25f));
+        
         public static final RegistryObject<Item> IMPROVED_SPEED_GENERATOR_UPGRADE = R.item("improved_speed_generator_upgrade", ()-> new GeneratorUpgradeItem(GeneratorUpgradeItem.Type.SPEED, 1.5f));
         public static final RegistryObject<Item> IMPROVED_FORTUNE_GENERATOR_UPGRADE = R.item("improved_fortune_generator_upgrade", ()-> new GeneratorUpgradeItem(GeneratorUpgradeItem.Type.FORTUNE, 3f));
-        public static final RegistryObject<Item> IMPROVED_ENTITY_GENERATOR_UPGRADE = R.item("improved_entity_generator_upgrade", ()-> new GeneratorUpgradeItem(GeneratorUpgradeItem.Type.ENTITY, 2));
+        public static final RegistryObject<Item> IMPROVED_ENTITY_GENERATOR_UPGRADE = R.item("improved_entity_generator_upgrade", ()-> new GeneratorUpgradeItem(GeneratorUpgradeItem.Type.ENTITY, 3));
+        public static final RegistryObject<Item> IMPROVED_STACK_GENERATOR_UPGRADE = R.item("improved_stack_generator_upgrade", ()-> new GeneratorUpgradeItem(GeneratorUpgradeItem.Type.STACK, 1.5f));
+        
         public static final RegistryObject<Item> PERFECT_SPEED_GENERATOR_UPGRADE = R.item("perfect_speed_generator_upgrade", ()-> new GeneratorUpgradeItem(GeneratorUpgradeItem.Type.SPEED, 2f));
         public static final RegistryObject<Item> PERFECT_FORTUNE_GENERATOR_UPGRADE = R.item("perfect_fortune_generator_upgrade", ()-> new GeneratorUpgradeItem(GeneratorUpgradeItem.Type.FORTUNE, 4f));
-        public static final RegistryObject<Item> PERFECT_ENTITY_GENERATOR_UPGRADE = R.item("perfect_entity_generator_upgrade", ()-> new GeneratorUpgradeItem(GeneratorUpgradeItem.Type.ENTITY, 3));
+        public static final RegistryObject<Item> PERFECT_ENTITY_GENERATOR_UPGRADE = R.item("perfect_entity_generator_upgrade", ()-> new GeneratorUpgradeItem(GeneratorUpgradeItem.Type.ENTITY, 4));
+        public static final RegistryObject<Item> PERFECT_STACK_GENERATOR_UPGRADE = R.item("perfect_stack_generator_upgrade", ()-> new GeneratorUpgradeItem(GeneratorUpgradeItem.Type.STACK, 2f));
+        
+        public static final RegistryObject<Item> CREATIVE_SPEED_GENERATOR_UPGRADE = R.item("creative_speed_generator_upgrade", ()-> new GeneratorUpgradeItem(GeneratorUpgradeItem.Type.SPEED, 100));
+        public static final RegistryObject<Item> CREATIVE_FORTUNE_GENERATOR_UPGRADE = R.item("creative_fortune_generator_upgrade", ()-> new GeneratorUpgradeItem(GeneratorUpgradeItem.Type.FORTUNE, 100));
+        public static final RegistryObject<Item> CREATIVE_ENTITY_GENERATOR_UPGRADE = R.item("creative_entity_generator_upgrade", ()-> new GeneratorUpgradeItem(GeneratorUpgradeItem.Type.ENTITY, 100));
+        public static final RegistryObject<Item> CREATIVE_STACK_GENERATOR_UPGRADE = R.item("creative_stack_generator_upgrade", ()-> new GeneratorUpgradeItem(GeneratorUpgradeItem.Type.STACK, 16f));
         
         public static void init(){}
     }
@@ -96,12 +106,22 @@ public class BBRegistry {
             out.accept(ITEMS.BASIC_FORTUNE_GENERATOR_UPGRADE.get());
             out.accept(ITEMS.BASIC_TAG_GENERATOR_UPGRADE.get());
             out.accept(ITEMS.BASIC_ENTITY_GENERATOR_UPGRADE.get());
+            out.accept(ITEMS.BASIC_STACK_GENERATOR_UPGRADE.get());
+            
             out.accept(ITEMS.IMPROVED_SPEED_GENERATOR_UPGRADE.get());
             out.accept(ITEMS.IMPROVED_FORTUNE_GENERATOR_UPGRADE.get());
             out.accept(ITEMS.IMPROVED_ENTITY_GENERATOR_UPGRADE.get());
+            out.accept(ITEMS.IMPROVED_STACK_GENERATOR_UPGRADE.get());
+            
             out.accept(ITEMS.PERFECT_SPEED_GENERATOR_UPGRADE.get());
             out.accept(ITEMS.PERFECT_FORTUNE_GENERATOR_UPGRADE.get());
             out.accept(ITEMS.PERFECT_ENTITY_GENERATOR_UPGRADE.get());
+            out.accept(ITEMS.PERFECT_STACK_GENERATOR_UPGRADE.get());
+            
+            out.accept(ITEMS.CREATIVE_SPEED_GENERATOR_UPGRADE.get());
+            out.accept(ITEMS.CREATIVE_FORTUNE_GENERATOR_UPGRADE.get());
+            out.accept(ITEMS.CREATIVE_ENTITY_GENERATOR_UPGRADE.get());
+            out.accept(ITEMS.CREATIVE_STACK_GENERATOR_UPGRADE.get());
         })
         .build());
     
