@@ -33,7 +33,7 @@ public class BBRegistry {
             R.item(id, ()-> new BlockItem(blockRegistryObject.get(), new Item.Properties()));
             return blockRegistryObject;
         }
-        public static void init(){}
+        static void init(){}
     }
     public static class BLOCK_ENTITIES {
         public static final RegistryObject<BlockEntityType<BlatGeneratorBlockEntity>> BLAT_GENERATOR =
@@ -43,7 +43,7 @@ public class BBRegistry {
             R.block_entity_type("auto_generator",
                 () -> BlockEntityType.Builder.of(AutoGeneratorBlockEntity::new, BLOCKS.BASIC_AUTO_GENERATOR.get(), BLOCKS.IMPROVED_AUTO_GENERATOR.get(), BLOCKS.PERFECT_AUTO_GENERATOR.get()).build(null));
         
-        public static void init(){}
+        static void init(){}
     }
     public static class ITEMS {
         public static final RegistryObject<Item> DROP_RING = R.item("drop_ring", GeneratorRing::new);
@@ -79,7 +79,7 @@ public class BBRegistry {
         public static final RegistryObject<Item> CREATIVE_ENTITY_GENERATOR_UPGRADE = R.item("creative_entity_generator_upgrade", ()-> new GeneratorUpgradeItem(GeneratorUpgradeItem.Type.ENTITY, 100));
         public static final RegistryObject<Item> CREATIVE_STACK_GENERATOR_UPGRADE = R.item("creative_stack_generator_upgrade", ()-> new GeneratorUpgradeItem(GeneratorUpgradeItem.Type.STACK, 16f));
         
-        public static void init(){}
+        static void init(){}
     }
     
     public static final RegistryObject<CreativeModeTab> TAB = R.creative_mode_tab("tab", ()-> CreativeModeTab.builder()

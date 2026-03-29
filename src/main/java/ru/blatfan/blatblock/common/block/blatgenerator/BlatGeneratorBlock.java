@@ -14,7 +14,7 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
 import org.jetbrains.annotations.Nullable;
-import ru.blatfan.blatapi.fluffy_fur.common.block.BlatEntityBlock;
+import ru.blatfan.blatapi.common.block.BlatEntityBlock;
 import ru.blatfan.blatblock.client.gui.BlatBlockScreen;
 
 public class BlatGeneratorBlock extends BlatEntityBlock {

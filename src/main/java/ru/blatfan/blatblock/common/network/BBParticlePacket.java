@@ -8,18 +8,18 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.network.NetworkEvent;
 import net.minecraftforge.network.simple.SimpleChannel;
-import ru.blatfan.blatapi.fluffy_fur.FluffyFur;
-import ru.blatfan.blatapi.fluffy_fur.client.particle.ParticleBuilder;
-import ru.blatfan.blatapi.fluffy_fur.client.particle.data.ColorParticleData;
-import ru.blatfan.blatapi.fluffy_fur.client.particle.data.GenericParticleData;
-import ru.blatfan.blatapi.fluffy_fur.client.particle.data.LightParticleData;
-import ru.blatfan.blatapi.fluffy_fur.client.particle.data.SpriteParticleData;
-import ru.blatfan.blatapi.fluffy_fur.client.particle.options.ItemParticleOptions;
-import ru.blatfan.blatapi.fluffy_fur.common.easing.Easing;
-import ru.blatfan.blatapi.fluffy_fur.common.network.ClientPacket;
-import ru.blatfan.blatapi.fluffy_fur.common.network.PositionClientPacket;
-import ru.blatfan.blatapi.fluffy_fur.registry.client.FluffyFurParticles;
-import ru.blatfan.blatapi.fluffy_fur.registry.client.FluffyFurRenderTypes;
+import ru.blatfan.blatapi.BlatApi;
+import ru.blatfan.blatapi.client.particle.ParticleBuilder;
+import ru.blatfan.blatapi.client.particle.data.ColorParticleData;
+import ru.blatfan.blatapi.client.particle.data.GenericParticleData;
+import ru.blatfan.blatapi.client.particle.data.LightParticleData;
+import ru.blatfan.blatapi.client.particle.data.SpriteParticleData;
+import ru.blatfan.blatapi.client.particle.options.ItemParticleOptions;
+import ru.blatfan.blatapi.client.registry.BARenderTypes;
+import ru.blatfan.blatapi.common.BARegistry;
+import ru.blatfan.blatapi.common.easing.Easing;
+import ru.blatfan.blatapi.common.network.ClientPacket;
+import ru.blatfan.blatapi.common.network.PositionClientPacket;
 
 import java.awt.*;
 import java.util.function.Supplier;
@@ -29,9 +29,9 @@ public class BBParticlePacket extends PositionClientPacket {
     
     @OnlyIn(Dist.CLIENT)
     public void execute(Supplier<NetworkEvent.Context> context) {
-        Level level = FluffyFur.proxy.getLevel();
-        ParticleBuilder.create(new ItemParticleOptions(FluffyFurParticles.ITEM.get(), drop))
-            .setRenderType(FluffyFurRenderTypes.TRANSLUCENT_BLOCK_PARTICLE)
+        Level level = BlatApi.proxy.getLevel();
+        ParticleBuilder.create(new ItemParticleOptions(BARegistry.Particles.ITEM.get(), drop))
+            .setRenderType(BARenderTypes.TRANSLUCENT_BLOCK_PARTICLE)
             .setColorData(ColorParticleData.create(Color.WHITE).build())
             .setSpriteData(SpriteParticleData.CRUMBS_RANDOM)
             .setTransparencyData(GenericParticleData.create(1, 0).setEasing(Easing.QUARTIC_OUT).build())

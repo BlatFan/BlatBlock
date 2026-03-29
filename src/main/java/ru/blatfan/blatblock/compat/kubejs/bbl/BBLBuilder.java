@@ -92,12 +92,12 @@ public class BBLBuilder {
     }
     
     public BBLBuilder texture(String texture) {
-        this.texture = new ResourceLocation(texture);
+        this.texture = ResourceLocation.parse(texture);
         return this;
     }
     
     public BBLBuilder background(String bg) {
-        this.bg = new ResourceLocation(bg);
+        this.bg = ResourceLocation.parse(bg);
         return this;
     }
     
@@ -112,7 +112,7 @@ public class BBLBuilder {
     
     public BBLBuilder block(String blockId, String chance, int level) {
         this.blocks.add(new BlatBlockLayer.Entry(
-            new ResourceLocation(blockId),
+            ResourceLocation.parse(blockId),
             chance,
             level
         ));
@@ -138,7 +138,7 @@ public class BBLBuilder {
     }
     
     public BBLBuilder entity(String entityId, String chance, int level) {
-        this.entities.add(new BlatBlockLayer.Entry(new ResourceLocation(entityId), chance, level));
+        this.entities.add(new BlatBlockLayer.Entry(ResourceLocation.parse(entityId), chance, level));
         return this;
     }
     

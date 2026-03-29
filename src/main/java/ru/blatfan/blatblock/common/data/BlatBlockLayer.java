@@ -4,11 +4,12 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
-import lombok.Setter;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.player.Player;
@@ -19,9 +20,9 @@ import net.minecraft.world.level.block.LiquidBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
 import ru.blatfan.blatapi.utils.ColorHelper;
-import ru.blatfan.blatapi.utils.Text;
+import ru.blatfan.blatapi.utils.MathEvaluator;
+import ru.blatfan.blatapi.utils.collection.Text;
 import ru.blatfan.blatblock.BlatBlock;
-import ru.blatfan.blatblock.util.MathEvaluator;
 import ru.blatfan.blatblock.util.PlayerSettings;
 
 import java.awt.*;
@@ -123,7 +124,7 @@ public class BlatBlockLayer {
         if (blockId.isEmpty() || chance.isEmpty() || level < 0)
             return null;
         
-        return new Entry(new ResourceLocation(blockId), chance, level);
+        return new Entry(ResourceLocation.parse(blockId), chance, level);
     }
     
     private static Entry parseEntityEntry(JsonElement element) {
@@ -140,10 +141,10 @@ public class BlatBlockLayer {
         if (entityId.isEmpty() || chance.isEmpty() || level < 0)
             return null;
         
-        return new Entry(new ResourceLocation(entityId), chance, level);
+        return new Entry(ResourceLocation.parse(entityId), chance, level);
     }
     
-    public void rand(Player player, Level level, BlockPos pos, Random random, int blockLevel) {
+    public void rand(Player player, ServerLevel level, BlockPos pos, Random random, int blockLevel) {
         try {
             BlockState blockState = getRandBlock(random, blockLevel);
             if (blockState != null && blockState.getBlock() instanceof LiquidBlock && !PlayerSettings.setLiquid(player))
@@ -159,6 +160,7 @@ public class BlatBlockLayer {
             try {
                 Entity entity = entityType.create(level);
                 if (entity != null) {
+                    if(PlayerSettings.tagItem(player)) entity.getPersistentData().putString("source", "generator");
                     Vec3 centerPos = pos.above().getCenter();
                     entity.setPos(centerPos.x, centerPos.y, centerPos.z);
                     level.addFreshEntity(entity);

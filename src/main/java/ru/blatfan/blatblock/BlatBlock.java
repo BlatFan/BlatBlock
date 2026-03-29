@@ -1,7 +1,6 @@
 package ru.blatfan.blatblock;
 
 import net.minecraft.client.gui.screens.MenuScreens;
-import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.api.distmarker.Dist;
@@ -11,7 +10,6 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.AddReloadListenerEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.config.ModConfig;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
@@ -19,14 +17,14 @@ import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import ru.blatfan.blatapi.fluffy_fur.FluffyFurClient;
-import ru.blatfan.blatapi.fluffy_fur.client.gui.screen.FluffyFurMod;
-import ru.blatfan.blatapi.fluffy_fur.client.gui.screen.FluffyFurPanorama;
+import ru.blatfan.blatapi.BlatApiClient;
+import ru.blatfan.blatapi.client.gui.screen.BAPanorama;
+import ru.blatfan.blatapi.client.gui.screen.BlatMod;
+import ru.blatfan.blatapi.utils.collection.Text;
 import ru.blatfan.blatblock.client.block_render.BlatGeneratorRenderer;
 import ru.blatfan.blatblock.client.gui.AutoGeneratorScreen;
 import ru.blatfan.blatblock.common.BBRegistry;
 import ru.blatfan.blatblock.common.data.BBLayerManager;
-import ru.blatfan.blatblock.common.events.GeneratorEvents;
 import ru.blatfan.blatblock.common.network.BBHandler;
 
 import java.awt.*;
@@ -36,17 +34,16 @@ public class BlatBlock {
     public static final String MOD_ID = "blatblock";
     public static final String MOD_NAME = "BlatBlock";
     public static final Logger LOGGER = LoggerFactory.getLogger(MOD_NAME);
-    public static final String MOD_VERSION = "0.6";
+    public static final String MOD_VERSION = "0.7";
     
-    public BlatBlock() {
-        IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();
+    public BlatBlock(FMLJavaModLoadingContext context) {
+        IEventBus bus = context.getModEventBus();
         bus.addListener(this::common);
         MinecraftForge.EVENT_BUS.addListener((AddReloadListenerEvent event) -> event.addListener(new BBLayerManager()));
-        MinecraftForge.EVENT_BUS.register(GeneratorEvents.class);
         BBRegistry.init(bus);
         
-        ModLoadingContext.get().registerConfig(ModConfig.Type.CLIENT, ConfigClient.SPEC, "blatfan/"+MOD_ID+"-client.toml");
-        ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, ConfigCommon.SPEC, "blatfan/"+MOD_ID+"-common.toml");
+        context.registerConfig(ModConfig.Type.CLIENT, ConfigClient.SPEC, "blatfan/"+MOD_ID+"-client.toml");
+        context.registerConfig(ModConfig.Type.COMMON, ConfigCommon.SPEC, "blatfan/"+MOD_ID+"-common.toml");
     }
     
     public void common(FMLCommonSetupEvent event){
@@ -54,7 +51,7 @@ public class BlatBlock {
     }
     
     public static ResourceLocation loc(String path) {
-        return new ResourceLocation(MOD_ID, path);
+        return ResourceLocation.fromNamespaceAndPath(MOD_ID, path);
     }
     
     public static class ConfigCommon {
@@ -108,27 +105,24 @@ public class BlatBlock {
     public static class ClientModEvents {
         @SubscribeEvent
         public static void onClientSetup(FMLClientSetupEvent event) {
-            FluffyFurMod MOD = new FluffyFurMod(MOD_ID, MOD_NAME, MOD_VERSION).setDev("BlatFan")
+            BlatMod MOD = new BlatMod(MOD_ID, MOD_NAME, MOD_VERSION).setDev("BlatFan")
                 .setItem(new ItemStack(BBRegistry.ITEMS.DIAMOND_MULTITOOL.get())).setNameColor(new Color(142, 95, 239))
-                .setVersionColor(new Color(65, 36, 138)).setDescription(Component.literal("New generation of OneBlock maps and modpacks"))
-                .addCurseForgeLink("https://www.curseforge.com/minecraft/mc-mods/blatblock")
-                .addModrinthLink("https://modrinth.com/project/blatblock")
-                .addDiscordLink("https://discord.com/channels/1134588677121654925/1421902783522668657")
-                .addGithubLink("https://github.com/BlatFan/BlatBlock");
-            FluffyFurPanorama PANORAMA = new FluffyFurPanorama(MOD_ID + ":panorama", Component.literal("BlatBlock"))
+                .setVersionColor(new Color(65, 36, 138)).setDescription(Text.create("New generation of OneBlock maps and modpacks"))
+                .addBFLinks("BlatBlock");
+            BAPanorama PANORAMA = new BAPanorama(MOD_ID + ":panorama", Text.create("BlatBlock"))
                 .setMod(MOD).setItem(new ItemStack(BBRegistry.ITEMS.WOODEN_MULTITOOL.get()))
-                .setTexture(loc("textures/gui/blatapi/panorama"))
+                .setFlat(true)
+                .setTexture(loc("textures/gui/blatapi/panorama.png"))
                 .setLogo(loc("textures/gui/blatapi/logo.png"));
             
-            FluffyFurClient.registerMod(MOD);
-            FluffyFurClient.registerPanorama(PANORAMA);
+            BlatApiClient.registerMod(MOD);
+            BlatApiClient.registerPanorama(PANORAMA);
             
             MenuScreens.register(BBRegistry.AUTO_GENERATOR_MENU.get(), AutoGeneratorScreen::new);
         }
         @SubscribeEvent
         public static void registerBER(EntityRenderersEvent.RegisterRenderers event) {
-            event.registerBlockEntityRenderer(BBRegistry.BLOCK_ENTITIES.BLAT_GENERATOR.get(),
-                BlatGeneratorRenderer::new);
+            event.registerBlockEntityRenderer(BBRegistry.BLOCK_ENTITIES.BLAT_GENERATOR.get(), BlatGeneratorRenderer::new);
         }
     }
 }

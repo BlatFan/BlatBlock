@@ -7,7 +7,6 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.item.ItemStack;
-import ru.blatfan.blatapi.common.guide_book.pages.TextPage;
 import ru.blatfan.blatapi.utils.GuiUtil;
 import ru.blatfan.blatblock.BlatBlock;
 import ru.blatfan.blatblock.common.block.autogenerator.AutoGeneratorMenu;
@@ -50,7 +49,7 @@ public class AutoGeneratorScreen extends AbstractContainerScreen<AutoGeneratorMe
     @Override
     protected void renderLabels(GuiGraphics pGuiGraphics, int pMouseX, int pMouseY) {
         GuiUtil.drawScaledCentreString(pGuiGraphics, this.title, 100, 2, Color.WHITE,
-            TextPage.findOptimalScale(new ArrayList<>(List.of(this.title)), 143, 10));
+            GuiUtil.findWidthScale(this.title, 143));
         pGuiGraphics.drawString(this.font, this.playerInventoryTitle, this.inventoryLabelX, this.inventoryLabelY, 4210752, false);
     }
     

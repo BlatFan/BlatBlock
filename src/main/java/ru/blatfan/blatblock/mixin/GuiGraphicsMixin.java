@@ -15,9 +15,14 @@ import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
 import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import ru.blatfan.blatapi.common.guide_book.pages.TextPage;
 import ru.blatfan.blatapi.utils.GuiUtil;
+import ru.blatfan.blatapi.utils.collection.Text;
 import ru.blatfan.blatblock.BlatBlock;
+import ru.blatfan.blatblock.client.gui.AutoGeneratorScreen;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -31,22 +36,20 @@ public abstract class GuiGraphicsMixin {
     private PoseStack pose;
     @Shadow
     public abstract void fill(RenderType pRenderType, int pMinX, int pMinY, int pMaxX, int pMaxY, int pColor);
-    /**
-     * @author BlatFan
-     * @reason count text size
-     */
-    @Overwrite
-    public void renderItemDecorations(Font pFont, ItemStack pStack, int pX, int pY, @Nullable String pText) {
-        GuiGraphics gg = (GuiGraphics) ((Object)this);
+    
+    @Inject(at = @At("HEAD"), method = "renderItemDecorations(Lnet/minecraft/client/gui/Font;Lnet/minecraft/world/item/ItemStack;IILjava/lang/String;)V", cancellable = true)
+    public void renderItemDecorations(Font pFont, ItemStack pStack, int pX, int pY, String pText, CallbackInfo ci) {
+        if(!(minecraft.screen instanceof AutoGeneratorScreen) || pStack.getCount()<=pStack.getMaxStackSize()) return;
+        ci.cancel();
+        GuiGraphics gui = (GuiGraphics) ((Object)this);
         if (!pStack.isEmpty()) {
             pose.pushPose();
             if (pStack.getCount() != 1 || pText != null) {
                 String s = pText == null ? String.valueOf(pStack.getCount()) : pText;
-                pose.translate(0.0F, 0.0F, 200.0F);
-                float scale = Math.min(1, TextPage.findOptimalScale(new ArrayList<>(List.of(Component.literal(s))), pFont.width("111"), pFont.lineHeight));
-                Color color = pStack.getCount()>64 && BlatBlock.ConfigClient.ITEM_OVERCOUNT_COLOR.get()
-                    ? BlatBlock.ConfigClient.ITEM_COUNT_COLOR.get() : new Color(255, 255, 255);
-                GuiUtil.drawScaledString(gg, s, (int) (pX + 17 - pFont.width(s)*scale), (int) (pY + 9*(2-scale)), color, scale);
+                pose.translate(0, 0, 200);
+                float scale = Math.min(1, GuiUtil.findWidthScale(s, 14));
+                Color color = BlatBlock.ConfigClient.ITEM_COUNT_COLOR.get();
+                GuiUtil.drawScaledString(gui, s, (int) (pX + 17 - pFont.width(s)*scale), (int) (pY + 8*(2-scale)), color, scale);
             }
             
             if (pStack.isBarVisible()) {
@@ -67,7 +70,7 @@ public abstract class GuiGraphicsMixin {
             }
             
             pose.popPose();
-            ItemDecoratorHandler.of(pStack).render(gg, pFont, pStack, pX, pY);
+            ItemDecoratorHandler.of(pStack).render(gui, pFont, pStack, pX, pY);
         }
     }
 }

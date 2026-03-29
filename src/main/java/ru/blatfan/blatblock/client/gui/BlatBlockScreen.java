@@ -23,6 +23,7 @@ import org.lwjgl.glfw.GLFW;
 import ru.blatfan.blatapi.client.guide_book.GuideClient;
 import ru.blatfan.blatapi.client.render.FluidRenderMap;
 import ru.blatfan.blatapi.utils.*;
+import ru.blatfan.blatapi.utils.collection.Text;
 import ru.blatfan.blatblock.BlatBlock;
 import ru.blatfan.blatblock.common.block.blatgenerator.BlatGeneratorBlockEntity;
 import ru.blatfan.blatblock.common.data.BlatBlockLayer;
@@ -238,10 +239,11 @@ public class BlatBlockScreen extends Screen {
                 gui.renderItemDecorations(font, stack, leftPos + 2 + x * 18, topPos + 11 + y * 18);
             } else if(levelBlocks.get(i) instanceof LiquidBlock l) {
                 TextureAtlasSprite sprite = FluidRenderMap.getCachedFluidTexture(new FluidStack(l.getFluid().getSource(), 1000), FluidRenderMap.FluidFlow.STILL);
+                Color color = FluidRenderMap.getTintColor(new FluidStack(l.getFluid().getSource(), 1000));
                 if (l.getFluid().getSource() == Fluids.WATER)
-                    RenderSystem.setShaderColor(0.0F, 0.0F, 1.0F, 1.0F);
+                    RenderSystem.setShaderColor(color.getRed()/255f, color.getGreen()/255f, color.getBlue()/255f, 1);
                 gui.blit(leftPos + 2 + x * 18, topPos + 11 + y * 18, 0, 16, 16, sprite);
-                RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
+                RenderSystem.setShaderColor(1, 1, 1, 1);
             }
         }
         pose.popPose();

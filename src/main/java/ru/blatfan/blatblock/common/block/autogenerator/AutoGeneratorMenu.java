@@ -11,8 +11,8 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.items.ItemStackHandler;
 import net.minecraftforge.items.wrapper.InvWrapper;
-import ru.blatfan.blatapi.fluffy_fur.client.gui.screen.ContainerMenuBase;
-import ru.blatfan.blatapi.fluffy_fur.client.gui.screen.ResultSlot;
+import ru.blatfan.blatapi.client.gui.screen.ContainerMenuBase;
+import ru.blatfan.blatapi.client.gui.screen.ResultSlot;
 import ru.blatfan.blatblock.BlatBlock;
 import ru.blatfan.blatblock.common.BBRegistry;
 
@@ -20,16 +20,16 @@ import java.util.Optional;
 
 @Getter
 public class AutoGeneratorMenu extends ContainerMenuBase {
-    private final BlockEntity blockEntity;
+    private final AutoGeneratorBlockEntity blockEntity;
     private final AutoGeneratorBlock.Type genType;
     private final ContainerData data;
     
     public AutoGeneratorMenu(int pContainerId, BlockPos pos, Inventory inventory, AutoGeneratorBlock.Type genType) {
         super(BBRegistry.AUTO_GENERATOR_MENU.get(), pContainerId);
         this.playerInventory = new InvWrapper(inventory);
-        this.blockEntity = inventory.player.level().getBlockEntity(pos);
         this.genType = genType;
-        if (blockEntity instanceof AutoGeneratorBlockEntity be) {
+        if (inventory.player.level().getBlockEntity(pos) instanceof AutoGeneratorBlockEntity be) {
+            this.blockEntity=be;
             this.data=be.getData();
             Optional<ItemStackHandler> itemHandler = getItemHandlerSafe();
             if (itemHandler.isPresent()) {
@@ -47,6 +47,7 @@ public class AutoGeneratorMenu extends ContainerMenuBase {
             } else
                 BlatBlock.LOGGER.error("BlockEntity does not have an ItemHandler capability");
         } else {
+            this.blockEntity=null;
             BlatBlock.LOGGER.error("BlockEntity at {} is not a AutoGeneratorBlockEntity", pos);
             this.data=new SimpleContainerData(2);
             this.data.set(0, 0);
@@ -67,21 +68,12 @@ public class AutoGeneratorMenu extends ContainerMenuBase {
     public Optional<ItemStackHandler> getItemHandlerSafe() {
         if (blockEntity == null)
             return Optional.empty();
-        return blockEntity.getCapability(ForgeCapabilities.ITEM_HANDLER)
-            .resolve()
-            .map(cap -> {
-                if (cap instanceof ItemStackHandler) {
-                    return (ItemStackHandler) cap;
-                }
-                BlatBlock.LOGGER.warn("ItemHandler is not an instance of ItemStackHandler: {}", cap.getClass());
-                return new ItemStackHandler(31);
-            });
+        return Optional.ofNullable(blockEntity.getItemHandler());
     }
     
     @Override
     public int getInventorySize() {
-        if (blockEntity == null) return 0;
-        return getItemHandlerSafe().get().getSlots();
+        return 31;
     }
     
     @Override

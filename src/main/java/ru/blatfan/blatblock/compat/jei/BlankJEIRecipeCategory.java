@@ -1,6 +1,7 @@
 package ru.blatfan.blatblock.compat.jei;
 
 import mezz.jei.api.gui.builder.IRecipeLayoutBuilder;
+import mezz.jei.api.gui.builder.ITooltipBuilder;
 import mezz.jei.api.gui.drawable.IDrawable;
 import mezz.jei.api.gui.ingredient.IRecipeSlotsView;
 import mezz.jei.api.helpers.IGuiHelper;
@@ -50,12 +51,12 @@ public abstract class BlankJEIRecipeCategory<T extends BBLRecipe> implements IRe
     }
     
     @Override
-    public @NotNull List<Component> getTooltipStrings(T recipe, @NotNull IRecipeSlotsView recipeSlotsView, double mouseX, double mouseY) {
+    public void getTooltip(ITooltipBuilder tooltip, T recipe, IRecipeSlotsView recipeSlotsView, double mouseX, double mouseY) {
+        IRecipeCategory.super.getTooltip(tooltip, recipe, recipeSlotsView, mouseX, mouseY);
         try {
-            return recipe.getTooltipStrings(mouseX, mouseY);
+            recipe.getTooltip(tooltip, mouseX, mouseY);
         } catch (Exception e) {
             BlatBlock.LOGGER.error("Error getting JEI tooltip: {}", e.getMessage());
-            return List.of();
         }
     }
     

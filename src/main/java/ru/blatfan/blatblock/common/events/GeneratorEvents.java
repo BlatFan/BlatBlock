@@ -1,5 +1,6 @@
 package ru.blatfan.blatblock.common.events;
 
+import dev.latvian.mods.kubejs.entity.forge.LivingEntityDropsEventJS;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Vec3i;
 import net.minecraft.network.chat.Component;
@@ -7,6 +8,7 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
+import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
@@ -14,27 +16,34 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.chunk.ChunkGenerator;
 import net.minecraft.world.level.levelgen.FlatLevelSource;
+import net.minecraftforge.event.entity.living.LivingDropsEvent;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.event.level.BlockEvent;
 import net.minecraftforge.event.level.LevelEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.common.Mod;
 import ru.blatfan.blatapi.common.player_stages.PlayerStages;
 import ru.blatfan.blatapi.utils.LevelWorldUtil;
 import ru.blatfan.blatapi.utils.NBTHelper;
 import ru.blatfan.blatapi.utils.PlayerUtil;
+import ru.blatfan.blatblock.BlatBlock;
 import ru.blatfan.blatblock.common.BBRegistry;
 import ru.blatfan.blatblock.common.block.blatgenerator.BlatGeneratorBlock;
 import ru.blatfan.blatblock.common.data.BlatBlockLayer;
 import ru.blatfan.blatblock.common.data.BBLayerManager;
 import ru.blatfan.blatblock.util.PlayerSettings;
 
+import javax.annotation.Nullable;
+import java.util.List;
 import java.util.Random;
 
+@Mod.EventBusSubscriber(modid = BlatBlock.MOD_ID)
 public class GeneratorEvents {
     @SubscribeEvent
     public static void blockClick(PlayerInteractEvent.RightClickBlock event){
@@ -58,21 +67,35 @@ public class GeneratorEvents {
             event.setCanceled(true);
             player.getMainHandItem().mineBlock(level, state, pos, player);
             level.destroyBlock(pos, false);
-            ItemStack stack = dropStack(state.getBlock(), PlayerSettings.tagItem(player));
-            if(PlayerSettings.dropToInv(player)) PlayerUtil.addItem(player, stack);
-            else LevelWorldUtil.dropItemStackInWorld(level, pos.offset(0, 1, 0), stack);
+            List<ItemStack> stacks = dropStack(PlayerSettings.tagItem(player), state, (ServerLevel) level, pos, null);
+            stacks.forEach(stack -> {
+                if(PlayerSettings.dropToInv(player)) PlayerUtil.addItem(player, stack);
+                else {
+                    ItemEntity entity = LevelWorldUtil.dropItemStackInWorld(level, pos.offset(0, 1, 0), stack);
+                    entity.setDeltaMovement(0, 0, 0);
+                }
+            });
         }
     }
     
-    public static ItemStack dropStack(Block block, boolean tag){
-        Item item = BlockItem.BY_BLOCK.getOrDefault(block, Items.AIR);
-        ItemStack stack = new ItemStack(item);
-        if(tag)NBTHelper.setString(stack, "source", "generator");
-        return stack;
+    @SubscribeEvent
+    public static void entityDrop(LivingDropsEvent event){
+        if(event.getEntity().getPersistentData().getString("source").equals("generator"))
+            for (ItemEntity drop : event.getDrops()) {
+                ItemStack stack = drop.getItem();
+                NBTHelper.setString(stack, "source", "generator");
+                drop.setItem(stack);
+            }
+    }
+    
+    public static List<ItemStack> dropStack(boolean tag, BlockState state, ServerLevel level, BlockPos pos, @Nullable BlockEntity blockEntity){
+        List<ItemStack> drop = Block.getDrops(state, level, pos, blockEntity);
+        if(tag) drop.forEach(stack -> NBTHelper.setString(stack, "source", "generator"));
+        return drop;
     }
     
     @SubscribeEvent
-    public static void genBlockTooltip(ItemTooltipEvent event){
+    public static void genTooltip(ItemTooltipEvent event){
         ItemStack stack = event.getItemStack();
         if(NBTHelper.hasKey(stack, "source"))
             event.getToolTip().add(Component.translatable("tooltip.blatblock.source",
@@ -96,9 +119,9 @@ public class GeneratorEvents {
                 level.setBlock(generatorPos.offset(0, 0, 1), state, 3);
                 level.setBlock(generatorPos.offset(0, 0, -1), state, 3);
             }
-            if (player.blockPosition().distSqr(Vec3i.ZERO) > 100 && !PlayerStages.get(player, "bb_first_join")) {
+            if (player.blockPosition().distSqr(Vec3i.ZERO) > 100 && !PlayerStages.getBool(player, BlatBlock.loc("first_join"))) {
                 player.teleportTo(0.5, 2, 0.5);
-                PlayerStages.add(player, "bb_first_join");
+                PlayerStages.setBool(player, BlatBlock.loc("first_join"), true);
                 player.addEffect(new MobEffectInstance(MobEffects.SATURATION, 60*20, 4, true, true, true));
             }
         }

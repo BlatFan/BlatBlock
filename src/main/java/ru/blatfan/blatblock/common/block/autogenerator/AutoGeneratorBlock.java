@@ -20,7 +20,7 @@ import net.minecraft.world.level.material.MapColor;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraftforge.network.NetworkHooks;
 import org.jetbrains.annotations.Nullable;
-import ru.blatfan.blatapi.fluffy_fur.common.block.BlatEntityBlock;
+import ru.blatfan.blatapi.common.block.BlatEntityBlock;
 
 public class AutoGeneratorBlock extends BlatEntityBlock {
     private final Type type;
@@ -82,9 +82,11 @@ public class AutoGeneratorBlock extends BlatEntityBlock {
         return InteractionResult.CONSUME;
     }
     
-    @Override
-    public @Nullable <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level pLevel, BlockState pState, BlockEntityType<T> pBlockEntityType) {
-        return (level, pos, state, be) -> ((AutoGeneratorBlockEntity)be).tick(level, pos, type);
+    public <T extends BlockEntity> @Nullable BlockEntityTicker<T> getTicker(Level pLevel, BlockState pState, BlockEntityType<T> pBlockEntityType) {
+        return (level, blockPos, blockState, t) -> {
+            if (t instanceof AutoGeneratorBlockEntity beb)
+                beb.tick(level, blockPos, type);
+        };
     }
     
     public MenuProvider menuProvider(BlockPos pos){

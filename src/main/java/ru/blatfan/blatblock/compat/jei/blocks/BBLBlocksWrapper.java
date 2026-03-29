@@ -2,6 +2,7 @@ package ru.blatfan.blatblock.compat.jei.blocks;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import mezz.jei.api.gui.builder.IRecipeLayoutBuilder;
+import mezz.jei.api.gui.builder.ITooltipBuilder;
 import mezz.jei.api.gui.ingredient.IRecipeSlotView;
 import mezz.jei.api.recipe.RecipeIngredientRole;
 import net.minecraft.client.gui.GuiGraphics;
@@ -17,7 +18,7 @@ import net.minecraft.world.level.material.Fluids;
 import net.minecraftforge.fluids.FluidStack;
 import ru.blatfan.blatapi.client.guide_book.GuideClient;
 import ru.blatfan.blatapi.client.render.FluidRenderMap;
-import ru.blatfan.blatapi.utils.Text;
+import ru.blatfan.blatapi.utils.collection.Text;
 import ru.blatfan.blatblock.compat.jei.BBLRecipe;
 
 import java.awt.*;
@@ -46,10 +47,7 @@ public class BBLBlocksWrapper extends BBLRecipe {
     }
     
     @Override
-    public void onTooltip(IRecipeSlotView recipeSlotView, List<Component> tooltip) {}
-    
-    @Override
-    public List<Component> getTooltipStrings(double mX, double mY) {
+    public void getTooltip(ITooltipBuilder tooltip, double mX, double mY) {
         List<Block> levelBlocks = get().getBlocks(getLevel());
         for (int i = 0; i < levelBlocks.size(); i++) {
             int x = i % 7;
@@ -69,17 +67,16 @@ public class BBLBlocksWrapper extends BBLRecipe {
                         tooltips.set(0, bucketItem.getFluid().getFluidType().getDescription());
                     }
                     tooltips.add(Text.create("tooltip.blatblock.chance").add(String.format("%.1f%%", chance * 100)));
-                    return tooltips;
+                    tooltip.addAll(tooltips);
                 } else if (block instanceof LiquidBlock liquidBlock) {
                     List<Component> tooltips = new ArrayList<>();
                     tooltips.add(liquidBlock.getFluid().getFluidType().getDescription());
                     tooltips.add(Text.create(BuiltInRegistries.FLUID.getKey(liquidBlock.getFluid()).toString()).withColor(Color.DARK_GRAY));
                     tooltips.add(Text.create("tooltip.blatblock.chance").add(String.format("%.1f%%", chance * 100)));
-                    return tooltips;
+                    tooltip.addAll(tooltips);
                 }
             }
         }
-        return new ArrayList<>();
     }
     
     @Override
@@ -128,4 +125,7 @@ public class BBLBlocksWrapper extends BBLRecipe {
             }
         }
     }
+    
+    @Override
+    public void onTooltip(IRecipeSlotView iRecipeSlotView, List<Component> list) {}
 }

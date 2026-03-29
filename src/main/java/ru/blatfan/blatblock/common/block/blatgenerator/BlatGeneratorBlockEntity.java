@@ -7,6 +7,7 @@ import net.minecraft.core.Vec3i;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.player.Player;
@@ -15,8 +16,8 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
-import ru.blatfan.blatapi.fluffy_fur.common.block.entity.BlockEntityBase;
-import ru.blatfan.blatapi.utils.Text;
+import ru.blatfan.blatapi.common.block.entity.BlockEntityBase;
+import ru.blatfan.blatapi.utils.collection.Text;
 import ru.blatfan.blatblock.BlatBlock;
 import ru.blatfan.blatblock.common.BBRegistry;
 import ru.blatfan.blatblock.common.block.autogenerator.AutoGeneratorBlockEntity;
@@ -57,9 +58,9 @@ public class BlatGeneratorBlockEntity extends BlockEntityBase {
                 addMinedBlock(1);
                 BlatBlockLayer lvlData = BBLayerManager.get(this.currentLayer);
                 if(player!=null && player.blockPosition().distSqr(Vec3i.ZERO) <= 2)
-                    player.setDeltaMovement(new Vec3(0, 1, 0));
+                    player.setDeltaMovement(new Vec3(0, 0, 0));
                 if (lvlData != null) {
-                    lvlData.rand(player, level, pos.above(), random, getCurrentLevel());
+                    lvlData.rand(player, (ServerLevel)level, pos.above(), random, getCurrentLevel());
                 } else {
                     BlatBlock.LOGGER.warn("No BlatBlockLayer data for {}", this.currentLayer);
                     this.currentLayer = BBLayerManager.getBaseId();
@@ -209,13 +210,12 @@ public class BlatGeneratorBlockEntity extends BlockEntityBase {
     @Override
     public void setChanged() {
         super.setChanged();
-        List<BlockEntity> entities = new ArrayList<>();
         if(level==null) return;
-        entities.add(level.getBlockEntity(getBlockPos().offset(1, 0, 0)));
-        entities.add(level.getBlockEntity(getBlockPos().offset(-1, 0, 0)));
-        entities.add(level.getBlockEntity(getBlockPos().offset(0, 0, 1)));
-        entities.add(level.getBlockEntity(getBlockPos().offset(0, 0, -1)));
-        for(BlockEntity entity : entities) if(entity instanceof AutoGeneratorBlockEntity) entity.setChanged();
+        
+        for (int x = -1; x < 2; x++)
+            for (int z = -1; z < 2; z++)
+                if(level.getBlockEntity(worldPosition.offset(x,0,z)) instanceof AutoGeneratorBlockEntity be)
+                    be.setChanged();
     }
     
     public int getMinedBlock() {

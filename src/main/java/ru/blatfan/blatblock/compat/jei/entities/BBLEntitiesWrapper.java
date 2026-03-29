@@ -2,6 +2,7 @@ package ru.blatfan.blatblock.compat.jei.entities;
 
 import com.mojang.math.Axis;
 import mezz.jei.api.gui.builder.IRecipeLayoutBuilder;
+import mezz.jei.api.gui.builder.ITooltipBuilder;
 import mezz.jei.api.gui.ingredient.IRecipeSlotView;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
@@ -14,7 +15,7 @@ import net.minecraft.world.entity.LivingEntity;
 import ru.blatfan.blatapi.client.guide_book.GuideClient;
 import ru.blatfan.blatapi.utils.ClientTicks;
 import ru.blatfan.blatapi.utils.GuiUtil;
-import ru.blatfan.blatapi.utils.Text;
+import ru.blatfan.blatapi.utils.collection.Text;
 import ru.blatfan.blatblock.BlatBlock;
 import ru.blatfan.blatblock.compat.jei.BBLRecipe;
 
@@ -36,7 +37,7 @@ public class BBLEntitiesWrapper extends BBLRecipe {
     public void onTooltip(IRecipeSlotView recipeSlotView, List<Component> tooltip) {}
     
     @Override
-    public List<Component> getTooltipStrings(double mX, double mY) {
+    public void getTooltip(ITooltipBuilder tooltip, double mX, double mY) {
         List<EntityType<?>> levelEntities = get().getEntities(getLevel());
         for (int i = 0; i < levelEntities.size(); i++) {
             int x = i % 4;
@@ -56,10 +57,9 @@ public class BBLEntitiesWrapper extends BBLRecipe {
                     tooltips.add(fakeEntity.getDisplayName());
                 tooltips.add(Text.create(BuiltInRegistries.ENTITY_TYPE.getKey(entityType).toString()).withColor(Color.DARK_GRAY));
                 tooltips.add(Text.create("tooltip.blatblock.chance").add(String.format("%.1f%%", chance * 100)));
-                return tooltips;
+                tooltip.addAll(tooltips);
             }
         }
-        return new ArrayList<>();
     }
     
     @Override

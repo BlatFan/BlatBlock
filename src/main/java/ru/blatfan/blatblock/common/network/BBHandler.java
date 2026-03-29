@@ -6,7 +6,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.network.NetworkRegistry;
 import net.minecraftforge.network.simple.SimpleChannel;
-import ru.blatfan.blatapi.fluffy_fur.common.network.PacketHandler;
+import ru.blatfan.blatapi.common.network.PacketHandler;
 import ru.blatfan.blatblock.BlatBlock;
 
 public class BBHandler extends PacketHandler {

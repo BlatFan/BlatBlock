@@ -34,7 +34,7 @@ import ru.blatfan.blatblock.mixin.AxeItemAccessor;
 import java.util.Optional;
 
 public class MultitoolItem extends DiggerItem {
-    public static final TagKey<Block> MINEABLE_WITH_MULTITOOL = BlockTags.create(new ResourceLocation("mineable/multitool"));
+    public static final TagKey<Block> MINEABLE_WITH_MULTITOOL = BlockTags.create(ResourceLocation.parse("mineable/multitool"));
     @Getter@Setter
     private float attackDamage, attackSpeed;
     

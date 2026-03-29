@@ -9,7 +9,6 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.inventory.ContainerData;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.LiquidBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -17,6 +16,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import ru.blatfan.blatapi.common.block.BlockISSimpleInventory;
 import ru.blatfan.blatapi.utils.BaseItemStackHandler;
 import ru.blatfan.blatapi.utils.ItemHelper;
+import ru.blatfan.blatapi.utils.NBTHelper;
 import ru.blatfan.blatblock.BlatBlock;
 import ru.blatfan.blatblock.common.BBRegistry;
 import ru.blatfan.blatblock.common.block.blatgenerator.BlatGeneratorBlockEntity;
@@ -71,11 +71,10 @@ public class AutoGeneratorBlockEntity extends BlockISSimpleInventory {
         if (cachedBBLLevel == -1) cachedBBL = null;
         if (cachedBBL == null) updateBBLData();
         
-        if (cachedBBL != null && hasFreeSlots() > -1) {
+        if (cachedBBL != null) {
             progressMax = tickInterval(type);
             progress++;
-        } else
-            resetProgress();
+        } else resetProgress();
         
         if (progress >= progressMax && cachedBBL != null) {
             progress = 0;
@@ -96,18 +95,19 @@ public class AutoGeneratorBlockEntity extends BlockISSimpleInventory {
         BlockState dropState = layer.getRandBlock(random, cachedBBLLevel);
         if (dropState.getBlock() instanceof LiquidBlock) return;
         
-        ItemStack drop = GeneratorEvents.dropStack(
-            dropState.getBlock(),
-            getCachedModifier(GeneratorUpgradeItem.Type.TAG) >= 1
+        List<ItemStack> drops = GeneratorEvents.dropStack(
+            getCachedModifier(GeneratorUpgradeItem.Type.TAG) >= 1,
+            dropState, (ServerLevel) level, pos, this
         );
         
-        if (drop.isEmpty()) return;
+        if (drops.isEmpty()) return;
         
         int fortuneAmount = random.nextInt(Math.max(1, (int) getCachedModifier(GeneratorUpgradeItem.Type.FORTUNE)));
-        drop.setCount(Math.max(1, fortuneAmount));
-        
-        addItemToStorage(drop);
-        sendParticlePacket(level, pos, drop);
+        drops.forEach(drop -> {
+            drop.setCount(Math.max(1, fortuneAmount));
+            if(addItemToStorage(drop))
+                sendParticlePacket(level, pos, drop);
+        });
     }
     
     private void generateEntityDrops(ServerLevel level, BlockPos pos, BlatBlockLayer layer, Random random) {
@@ -117,7 +117,7 @@ public class AutoGeneratorBlockEntity extends BlockISSimpleInventory {
         EntityType<?> entityType = layer.getRandEntity(random, cachedBBLLevel);
         if (entityType == null) return;
         
-        for (ItemStack drop : getEntityDrop(level, entityType, (int) entityMod))
+        for (ItemStack drop : getEntityDrop(level, entityType, (int) entityMod, getCachedModifier(GeneratorUpgradeItem.Type.TAG) >= 1))
             if (addItemToStorage(drop)) sendParticlePacket(level, pos, drop);
     }
     
@@ -144,21 +144,15 @@ public class AutoGeneratorBlockEntity extends BlockISSimpleInventory {
     public void updateBBLData() {
         if (level == null) return;
         
-        BlockPos[] checkPositions = {
-            getBlockPos().offset(1, -1, 0),
-            getBlockPos().offset(-1, -1, 0),
-            getBlockPos().offset(0, -1, 1),
-            getBlockPos().offset(0, -1, -1)
-        };
-        
-        for (BlockPos checkPos : checkPositions) {
-            BlockEntity entity = level.getBlockEntity(checkPos);
-            if (entity instanceof BlatGeneratorBlockEntity generator) {
-                cachedBBL = generator.getCurrentLayer();
-                cachedBBLLevel = generator.getCurrentLevel();
-                return;
+        for (int x = -1; x < 2; x++)
+            for (int z = -1; z < 2; z++){
+                BlockEntity entity = level.getBlockEntity(worldPosition.offset(x, 0, z));
+                if (entity instanceof BlatGeneratorBlockEntity generator) {
+                    cachedBBL = generator.getCurrentLayer();
+                    cachedBBLLevel = generator.getCurrentLevel();
+                    return;
+                }
             }
-        }
     }
     
     public float getCachedModifier(GeneratorUpgradeItem.Type type) {
@@ -202,7 +196,6 @@ public class AutoGeneratorBlockEntity extends BlockISSimpleInventory {
     
     private void resetProgress() {
         progress = 0;
-        progressMax = 0;
     }
     
     public int hasFreeSlots(ItemStack stack) {
@@ -211,13 +204,6 @@ public class AutoGeneratorBlockEntity extends BlockISSimpleInventory {
             if (slot.isEmpty() || (ItemHelper.areStacksEqual(slot, stack) && slot.getCount() + stack.getCount() <= stackMaxCount(stack)))
                 return i;
         }
-        return -1;
-    }
-    
-    public int hasFreeSlots() {
-        for (int i = 0; i < STORAGE_SLOTS; i++)
-            if (getItemHandler().getStackInSlot(i).isEmpty())
-                return i;
         return -1;
     }
     
@@ -270,7 +256,7 @@ public class AutoGeneratorBlockEntity extends BlockISSimpleInventory {
         return dataAccess;
     }
     
-    public static List<ItemStack> getEntityDrop(ServerLevel level, EntityType<?> entityType, int looting) {
+    public static List<ItemStack> getEntityDrop(ServerLevel level, EntityType<?> entityType, int looting, boolean tag) {
         if(!(entityType.create(level) instanceof LivingEntity living)) return new ArrayList<>();
         LivingEntityAccess access = (LivingEntityAccess) living;
         List<ItemStack> drop = new ArrayList<>();
@@ -282,6 +268,7 @@ public class AutoGeneratorBlockEntity extends BlockISSimpleInventory {
         
         dropEntity = List.copyOf(living.captureDrops(null));
         dropEntity.forEach(e -> drop.add(e.getItem()));
+        if(tag) drop.forEach(item -> NBTHelper.setString(item, "source", "generator"));
         return drop;
     }
 }
